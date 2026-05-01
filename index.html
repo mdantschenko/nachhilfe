@@ -229,7 +229,6 @@
             transition: all 0.3s ease;
         }
 
-        /* --- NEUER CSS ABSCHNITT FÜR WEITERLESEN BUTTON --- */
         .review-text.expanded {
             /* Wenn die Klasse 'expanded' per Knopfdruck aktiv wird, heben wir die 4-Zeilen-Begrenzung auf */
             -webkit-line-clamp: unset;
@@ -264,7 +263,6 @@
             color: #1c5980;
             /* Das Blau wird etwas dunkler */
         }
-        /* --- ENDE NEUER CSS ABSCHNITT --- */
 
         .overall-rating-text {
             /* Das Design für den "Google Gesamtbewertung..." Text unter dem Karussell */
@@ -349,7 +347,30 @@
 
     <a href="mailto:deine@email.de" class="contact-btn">Jetzt Probestunde anfragen</a>
     <script>
-        // --- NEUER JAVASCRIPT BEREICH FÜR DEN BUTTON ---
+        // --- NEUE SICHERHEITSFUNKTION ---
+        // Diese Funktion schützt uns vor böswilligem Code in fremden Texten (XSS-Schutz).
+        // Wir übergeben ihr einen beliebigen Text (wie den Namen oder die Bewertung eines Nutzers).
+        function escapeHTML(str) {
+            // Falls der übergebene Text leer oder ungültig ist, geben wir zur Sicherheit einen leeren Text zurück.
+            if (!str) return "";
+            // Wir suchen im Text nach Zeichen, die der Browser als Programmier-Befehle missverstehen könnte: &, <, >, ', "
+            // Die .replace() Methode tauscht diese Zeichen durch harmlose HTML-Platzhalter aus.
+            return str.replace(/[&<>'"]/g, function(tag) {
+                // Hier definieren wir, welches gefährliche Zeichen durch welchen harmlosen Text ersetzt wird.
+                const charsToReplace = {
+                    '&': '&amp;', // Macht aus einem & Zeichen das sichere &amp;
+                    '<': '&lt;',  // Macht aus der öffnenden spitzen Klammer (gefährlich für Skripte) ein harmloses &lt;
+                    '>': '&gt;',  // Macht aus der schließenden Klammer ein harmloses &gt;
+                    "'": '&#39;', // Macht aus dem einfachen Anführungsstrich ein &#39;
+                    '"': '&quot;' // Macht aus dem doppelten Anführungsstrich ein &quot;
+                };
+                // Gibt das entschärfte Zeichen zurück an den Text.
+                return charsToReplace[tag] || tag;
+            });
+        }
+        // --- ENDE SICHERHEITSFUNKTION ---
+
+
         // Diese Funktion wird vom Browser aufgerufen, sobald jemand auf den "Weiterlesen" Button klickt
         function toggleReadMore(buttonElement) {
             // Wir suchen die umgebende Bewertungs-Karte und das darin enthaltene Text-Element.
@@ -385,7 +406,6 @@
                 buttonElement.textContent = 'Weiterlesen';
             }
         }
-        // --- ENDE NEUER BEREICH ---
 
 
         // Wir setzen ein 'async' vor die Funktion, um Ladevorgänge abwarten zu können
@@ -455,30 +475,27 @@
                             // Wir erstellen eine Kette von Sternen
                             const starsHTML = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
                             
-                            // --- NEUER BEREICH FÜR DEN WEITERLESEN BUTTON ---
                             // Wir prüfen, ob der Bewertungstext lang genug ist (mehr als 150 Zeichen), um einen Button zu rechtfertigen
                             let readMoreButtonHTML = '';
                             if (review.text && review.text.length > 150) {
                                 // Wenn ja, generieren wir den HTML-Code für den Button, der unsere neue Funktion 'toggleReadMore' aufruft
                                 readMoreButtonHTML = `<button class="read-more-btn" onclick="toggleReadMore(this)">Weiterlesen</button>`;
                             }
-                            // --- ENDE NEUER BEREICH ---
 
-                            // --- GEÄNDERTER BEREICH: ANFÜHRUNGSZEICHEN ENTFERNT ---
-                            // Ich habe die Anführungszeichen um ${review.text} gelöscht.
-                            // Zusätzlich wird nun unter dem Text dynamisch der Button-Code (${readMoreButtonHTML}) eingefügt.
+                            // WICHTIGE ÄNDERUNG: Wir schleusen authorName und review.text nun durch unsere neue escapeHTML() Funktion!
+                            // Dadurch können schädliche Befehle in Benutzernamen oder Texten nicht mehr als Code vom Browser interpretiert werden.
                             sliderHTML += `
                                 <div class="review-card">
                                     <div class="review-header">
-                                        <img src="${photoUri}" alt="${authorName}" class="review-avatar">
+                                        <img src="${photoUri}" alt="${escapeHTML(authorName)}" class="review-avatar">
                                         <div class="review-author-info">
-                                            <div class="review-author">${authorName}</div>
+                                            <div class="review-author">${escapeHTML(authorName)}</div>
                                             <div class="review-date">${dateString}</div>
                                             <div class="review-stars">${starsHTML}</div>
                                         </div>
                                         ${googleIcon}
                                     </div>
-                                    <div class="review-text">${review.text}</div>
+                                    <div class="review-text">${escapeHTML(review.text)}</div>
                                     ${readMoreButtonHTML}
                                 </div>
                             `;
@@ -519,6 +536,7 @@
         }
     </script>
     
+    <!-- Den API-Key in dieser Zeile musst du in der Google Cloud Console unbedingt einschränken! -->
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0ZxXeIbMH7Ll88U4Q0dSKKUseFw06eSA&loading=async&libraries=places&callback=initMap"></script>
 
 </body>
