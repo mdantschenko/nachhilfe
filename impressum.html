@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum | MatheGanzEinfach</title>
+    <script src="js/tailwindcss.js"></script>
+    
+    <link href="fontawesome/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* --- LOKALE SCHRIFTART-EINBINDUNG (DSGVO KONFORM) --- */
+        /* Wir binden hier die gleichen Schriften wie auf der Startseite ein, damit das Design einheitlich bleibt */
+        
+        /* Schriftart Inter in Stärke 300 (Dünn) */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap; /* Verhindert unsichtbaren Text beim Laden */
+            src: url('./fonts/inter-v20-latin-300.woff2') format('woff2');
+        }
+
+        /* Schriftart Inter in Stärke 400 (Standard) */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('./fonts/inter-v20-latin-regular.woff2') format('woff2');
+        }
+
+        /* Schriftart Inter in Stärke 600 (Halbfett) */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('./fonts/inter-v20-latin-600.woff2') format('woff2');
+        }
+
+        /* Schriftart Inter in Stärke 700 (Fett) */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('./fonts/inter-v20-latin-700.woff2') format('woff2');
+        }
+
+        /* Schriftart Inter in Stärke 800 (Sehr Fett) */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 800;
+            font-display: swap;
+            src: url('./fonts/inter-v20-latin-800.woff2') format('woff2');
+        }
+
+        /* --- ALLGEMEINES CSS --- */
+        html {
+            /* Weiches Scrollen bei Anker-Links */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            /* Zuweisung der geladenen Inter-Schriftart für die gesamte Seite */
+            font-family: 'Inter', sans-serif;
+            /* Verhindert horizontales Scrollen */
+            overflow-x: hidden; 
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-blue-100 selection:text-blue-900 flex flex-col min-h-screen">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100/50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center group cursor-pointer">
+                    <a href="index.html" class="text-2xl font-extrabold text-blue-600 tracking-tight no-underline flex items-center gap-2 transition-colors">
+                        <span>Mathe<span class="text-gray-900">GanzEinfach</span></span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html#vorteile" class="text-gray-600 hover:text-blue-600 font-medium transition hover:-translate-y-0.5">Vorteile</a>
+                    <a href="index.html#ablauf" class="text-gray-600 hover:text-blue-600 font-medium transition hover:-translate-y-0.5">Ablauf</a>
+                    <a href="index.html#rezensionen" class="text-gray-600 hover:text-blue-600 font-medium transition hover:-translate-y-0.5">Erfolge</a>
+                    
+                    <a href="https://wa.me/4917661516445?text=Hallo!%20Ich%20interessiere%20mich%20f%C3%BCr%20Mathe-Nachhilfe." target="_blank" class="bg-green-500 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-green-600 transition shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:-translate-y-1">
+                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 pb-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-8">Impressum</h1>
+            
+            <div class="bg-white p-8 md:p-12 rounded-[2rem] shadow-sm border border-gray-100">
+                
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Angaben gemäß § 5 DDG</h2>
+                <p class="text-gray-600 leading-relaxed mb-8">
+                    Michael Dantschenko<br>
+                    Mathematik Nachhilfe<br>
+                    Altenbrückstraße 19B<br>
+                    40599, Düsseldorf
+                </p>
+
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Kontakt</h2>
+                <p class="text-gray-600 leading-relaxed mb-8">
+                    Telefon: +49 (0) 176 61516445<br>
+                    E-Mail: info@matheganzeinfach.com
+                </p>
+
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Umsatzsteuer</h2>
+                <p class="text-gray-600 leading-relaxed mb-8">
+                    Als Kleinunternehmer im Sinne von § 19 UStG wird keine Umsatzsteuer berechnet. Daher besitze ich keine Umsatzsteuer-Identifikationsnummer (USt-IdNr.).
+                </p>
+
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">EU-Streitschlichtung</h2>
+                <p class="text-gray-600 leading-relaxed mb-8">
+                    Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: 
+                    <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 hover:underline">https://ec.europa.eu/consumers/odr/</a>.<br>
+                    Unsere E-Mail-Adresse finden Sie oben im Impressum.
+                </p>
+
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+                <p class="text-gray-600 leading-relaxed">
+                    Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+                </p>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 pt-16 pb-8 border-t border-gray-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div>
+                    <a href="index.html" class="text-2xl font-extrabold text-blue-500 tracking-tight flex items-center gap-2 mb-4">
+                        <span>Mathe<span class="text-white">GanzEinfach</span></span>
+                    </a>
+                    <p class="text-gray-400 text-sm max-w-sm">
+                        Dein privater Online-Nachhilfelehrer für bessere Noten in der Mittelstufe und Oberstufe.
+                    </p>
+                </div>
+                <div class="md:text-right">
+                    <h4 class="font-bold text-white mb-4">Rechtliches</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="impressum.html" class="hover:text-blue-400 transition text-white">Impressum</a></li>
+                        <li><a href="datenschutz.html" class="hover:text-blue-400 transition">Datenschutz</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-center text-sm text-gray-500 flex flex-col sm:flex-row justify-between items-center">
+                <p>&copy; 2026 MatheGanzEinfach. Alle Rechte vorbehalten.</p>
+                <p class="mt-2 sm:mt-0">Made with <i class="fas fa-heart text-red-500 mx-1"></i> in Düsseldorf.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
