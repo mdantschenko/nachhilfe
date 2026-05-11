@@ -260,7 +260,7 @@
                     </button>
                 </div>
 
-                <p id="loading-text" class="text-gray-500 text-lg animate-pulse hidden">Lade echte Bewertungen von Google...</p>
+                <p id="loading-text" class="text-gray-500 text-lg animate-pulse hidden">Lade Bewertungen von Google...</p>
             </div>
         </div>
     </section>
@@ -392,39 +392,71 @@
             document.body.appendChild(script);
         }
 
+        // --- NEUE GLOBALE VARIABLEN FÜR DAS KARUSSELL ---
+        let carouselInterval;
+        let isCarouselPaused = false;
+
         // --- 1. FUNKTION FÜR DEN WEITERLESEN BUTTON ---
-        // Diese Funktion klappt zu lange Google-Bewertungstexte auf oder zu
         function toggleReadMore(buttonElement) {
-            // Sucht die Karte (den weißen Hintergrund), in der der Button geklickt wurde
+            // Pausiert das Karussell dauerhaft, damit der Nutzer in Ruhe lesen kann
+            isCarouselPaused = true;
+
             const card = buttonElement.closest('div.bg-white');
-            // Sucht den Text-Container innerhalb dieser Karte
             const textContainer = card ? card.querySelector('.review-text') : null;
 
-            // Bricht ab, falls kein Text gefunden wurde (Fehlervermeidung)
             if (!textContainer) return;
 
-            // Schließt automatisch alle anderen aktuell geöffneten Texte (Akkordeon-Effekt)
             document.querySelectorAll('.review-text.line-clamp-none').forEach(el => {
                 if (el !== textContainer) {
                     el.classList.remove('line-clamp-none');
-                    el.classList.add('line-clamp-4'); // Tailwind Klasse für Begrenzung auf 4 Zeilen
+                    el.classList.add('line-clamp-4'); 
                     const otherButton = el.parentElement.querySelector('button');
                     if (otherButton) otherButton.textContent = 'Weiterlesen';
                 }
             });
 
-            // Wenn der aktuelle Text abgeschnitten ist (Klasse line-clamp-4 ist vorhanden)
             if (textContainer.classList.contains('line-clamp-4')) {
-                // Entferne die Begrenzung und zeige den ganzen Text
                 textContainer.classList.remove('line-clamp-4');
                 textContainer.classList.add('line-clamp-none');
-                // Ändere den Text des Buttons
                 buttonElement.textContent = 'Weniger anzeigen';
             } else {
-                // Ansonsten füge die Begrenzung wieder hinzu
                 textContainer.classList.add('line-clamp-4');
                 textContainer.classList.remove('line-clamp-none');
                 buttonElement.textContent = 'Weiterlesen';
+            }
+        }
+
+        // --- 1.1 FUNKTIONEN FÜR DIE KARUSSELL-DREHUNG ---
+        function startCarousel() {
+            const slider = document.getElementById('review-slider');
+            if (!slider) return;
+            
+            // Dreht das Karussell alle 3.5 Sekunden
+            carouselInterval = setInterval(() => {
+                if (!isCarouselPaused) {
+                    if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
+                        slider.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        slider.scrollBy({ left: 340, behavior: 'smooth' }); 
+                    }
+                }
+            }, 3500); 
+
+            // Pausiert auch, solange die Maus über einer Bewertung schwebt
+            slider.addEventListener('mouseenter', () => isCarouselPaused = true);
+            slider.addEventListener('mouseleave', () => {
+                // Fährt nur fort, wenn aktuell kein Text per "Weiterlesen" aufgeklappt ist
+                if(!document.querySelector('.review-text.line-clamp-none')) {
+                    isCarouselPaused = false;
+                }
+            });
+        }
+
+        function scrollCarousel(direction) {
+            const slider = document.getElementById('review-slider');
+            if (slider) {
+                isCarouselPaused = true; // Bei Klick auf Pfeile Automatik stoppen
+                slider.scrollBy({ left: direction * 340, behavior: 'smooth' });
             }
         }
 
@@ -471,8 +503,15 @@
                         // Der Datenabruf war erfolgreich, wir verstecken nun den "Lade..." Text
                         loadingText.style.display = 'none';
 
-                        // Wir bauen den HTML-Code für das Scroll-Karussell zusammen
-                        let sliderHTML = '<div class="flex gap-6 overflow-x-auto pb-10 pt-4 w-full snap-x snap-mandatory hide-scrollbar items-start px-4 md:px-0 justify-start md:justify-center">';
+                        // Wir bauen den HTML-Code für das Scroll-Karussell zusammen (linksbündig, mit Pfeilen)
+                        let sliderHTML = `
+                            <div class="relative w-full overflow-hidden group">
+                                <button onclick="scrollCarousel(-1)" class="absolute left-0 top-[40%] -translate-y-1/2 z-20 bg-white/90 shadow-lg rounded-full w-12 h-12 flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:scale-105 transition border border-gray-100 hidden md:flex cursor-pointer">
+                                    <i class="fas fa-chevron-left text-xl"></i>
+                                </button>
+                                
+                                <div id="review-slider" class="flex gap-6 overflow-x-auto pb-10 pt-4 w-full snap-x snap-mandatory hide-scrollbar items-start px-4 justify-start scroll-smooth relative z-10">
+                        `;
 
                         // Wir gehen nun jede der 5 Bewertungen in einer Schleife durch
                         newestFiveReviews.forEach(review => {
@@ -521,8 +560,14 @@
                             `;
                         });
 
-                        // Schließt den flex-Container für das Karussell ab
-                        sliderHTML += '</div>';
+                        // Schließt den flex-Container für das Karussell ab und fügt den rechten Pfeil hinzu
+                        sliderHTML += `
+                                </div>
+                                <button onclick="scrollCarousel(1)" class="absolute right-0 top-[40%] -translate-y-1/2 z-20 bg-white/90 shadow-lg rounded-full w-12 h-12 flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:scale-105 transition border border-gray-100 hidden md:flex cursor-pointer">
+                                    <i class="fas fa-chevron-right text-xl"></i>
+                                </button>
+                            </div>
+                        `;
                         
                         // Ruft den Gesamt-Durchschnitt der Google-Sterne ab (z.B. "5.0")
                         const ratingValue = place.rating ? place.rating.toFixed(1) : ""; 
@@ -544,8 +589,10 @@
                         }
 
                         // Schreibt unseren generierten HTML-Code direkt in den vorher leeren Wrapper auf der Seite
-                        // Achtung: Wir leeren den Wrapper komplett, der Opt-In Button verschwindet also und macht Platz für die Bewertungen!
                         wrapper.innerHTML = sliderHTML + footerHTML;
+                        
+                        // Startet die automatische Karussell-Rotation
+                        startCarousel();
 
                     } else {
                         // Falls alle Bewertungen unter 4 Sterne haben
