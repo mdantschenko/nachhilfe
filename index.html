@@ -141,12 +141,274 @@
             /* Versteckt das visuelle Element des Scrollbalkens */
             display: none;
         }
+<<<<<<< HEAD
         /* Spezifische Anweisung für Firefox und Internet Explorer/Edge, um den Scrollbalken zu verstecken */
         .hide-scrollbar {
             /* IE und Edge Methode */
             -ms-overflow-style: none;
             /* Firefox Methode */
             scrollbar-width: none;
+=======
+
+        .reviews-wrapper {
+            /* Das ist der Hauptcontainer für das gesamte Rezensions-Modul (Karten + Text darunter) */
+            width: 100%;
+            /* Er nimmt die volle verfügbare Breite ein */
+            max-width: 800px;
+            /* Darf aber maximal 800 Pixel breit werden, damit es auf großen Bildschirmen gut aussieht */
+            margin-bottom: 30px;
+            /* Abstand nach unten zum Button */
+            display: flex;
+            /* Wir nutzen Flexbox für die innere Anordnung */
+            flex-direction: column;
+            /* Karten und Gesamtbewertungs-Text stehen untereinander */
+            align-items: center;
+            /* Alles wird mittig zentriert */
+        }
+
+        .reviews-slider {
+            /* Das ist das eigentliche Karussell, das die Karten nebeneinander hält */
+            display: flex;
+            /* Ordnet die Bewertungs-Karten in einer Reihe an */
+            gap: 15px;
+            /* Erzeugt einen gleichmäßigen Abstand von 15 Pixeln zwischen den einzelnen Karten */
+            overflow-x: auto;
+            /* WICHTIG: Erlaubt horizontales Scrollen/Wischen, wenn zu viele Karten da sind */
+            padding: 10px;
+            /* Etwas Innenabstand, damit die Schatten der Karten nicht abgeschnitten werden */
+            width: 100%;
+            /* Nimmt die volle Breite des Wrappers ein */
+            scroll-snap-type: x mandatory;
+            /* Sorgt dafür, dass die Karten beim Wischen auf dem Handy schön einrasten */
+            box-sizing: border-box;
+            /* Verhindert, dass das Padding die Breite sprengt */
+            align-items: flex-start;
+            /* Verhindert, dass sich alle Karten in der Höhe an der höchsten Karte ausrichten */
+        }
+
+        .reviews-slider::-webkit-scrollbar {
+            /* Wir verstecken den unschönen Scrollbalken für ein sauberes Design (funktioniert auf Handys per Touch trotzdem) */
+            display: none; 
+            /* Versteckt den Scrollbalken in Chrome/Safari */
+        }
+
+        .review-card {
+            /* Das ist das Design für eine einzelne Bewertungskarte */
+            background: white;
+            /* Die Karte bekommt einen weißen Hintergrund */
+            padding: 20px;
+            /* Großzügiger innerer Abstand, damit der Text Luft zum Atmen hat */
+            border-radius: 12px;
+            /* Weiche, abgerundete Ecken */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            /* Ein sehr weicher, moderner Schatten für den 3D-Effekt */
+            min-width: 300px;
+            /* Jede Karte ist mindestens 300 Pixel breit */
+            max-width: 300px;
+            /* Und maximal 300 Pixel breit (also fest definiert) */
+            text-align: left;
+            /* Der Text in der Karte wird linksbündig gesetzt */
+            scroll-snap-align: center;
+            /* Die Karte rastet beim Wischen genau in der Mitte ein */
+            display: flex;
+            /* Flexbox für den inneren Aufbau der Karte */
+            flex-direction: column;
+            /* Kopfbereich und Text stehen untereinander */
+            border: 1px solid #eee;
+            /* Ein ganz zarter grauer Rahmen um die Karte */
+        }
+
+        .review-header {
+            /* Container für Profilbild, Name, Datum, Sterne und Google-Icon */
+            display: flex;
+            /* Ordnet die Elemente nebeneinander an */
+            align-items: center;
+            /* Zentriert Bild und Text vertikal auf einer Linie */
+            margin-bottom: 12px;
+            /* Abstand nach unten zum eigentlichen Bewertungstext */
+        }
+
+        .review-avatar {
+            /* Das Design für das runde Profilbild */
+            width: 40px;
+            /* Feste Breite von 40 Pixeln */
+            height: 40px;
+            /* Feste Höhe von 40 Pixeln */
+            border-radius: 50%;
+            /* Macht das quadratische Bild perfekt rund */
+            margin-right: 12px;
+            /* Abstand nach rechts zum Text */
+            object-fit: cover;
+            /* Verhindert, dass das Bild gestaucht oder verzerrt wird */
+        }
+
+        .review-author-info {
+            /* Ein Container, der Name, Datum und Sterne hält */
+            display: flex;
+            /* Flexbox aktivieren */
+            flex-direction: column;
+            /* Alles ordentlich untereinander */
+            flex-grow: 1;
+            /* WICHTIG: Dieser Container drückt das Google-Icon ganz nach rechts */
+        }
+
+        .review-author {
+            /* Das Design für den Namen des Verfassers */
+            font-weight: bold;
+            /* Der Name wird fett gedruckt */
+            font-size: 0.95rem;
+            /* Eine passende Schriftgröße */
+            color: #222;
+            /* Ein sehr dunkles Grau */
+        }
+
+        .review-date {
+            /* Das Design für das Datum unter dem Namen */
+            font-size: 0.8rem;
+            /* Etwas kleinere Schrift als der Name */
+            color: #777;
+            /* Ein helleres Grau, damit es dezent wirkt */
+            margin-top: 2px;
+            /* Minimaler Abstand nach oben zum Namen */
+        }
+
+        .review-stars {
+            /* Das Design für die gelben Sterne */
+            color: #fbbc04;
+            /* Das originale Google-Gelb */
+            font-size: 1rem;
+            /* Größe der Sterne */
+            margin-top: 4px;
+            /* Ein kleiner Abstand nach oben zum Datum */
+        }
+
+        .google-icon {
+            /* Das kleine Google "G" Symbol oben rechts in der Karte */
+            width: 20px;
+            /* Feste Breite */
+            height: 20px;
+            /* Feste Höhe */
+        }
+
+        .review-text {
+            /* Das Design für den eigentlichen Bewertungstext */
+            font-size: 0.9rem;
+            /* Etwas kleinere, gut lesbare Schrift */
+            color: #555;
+            /* Mittleres Grau, strengt die Augen weniger an als reines Schwarz */
+            line-height: 1.4;
+            /* Etwas mehr Zeilenabstand für bessere Lesbarkeit */
+            /* Die nächsten 4 Zeilen sind der Trick, um den Text nach 4 Zeilen abzuschneiden */
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            /* Weicher Übergang, wenn sich die Box vergrößert */
+            transition: all 0.3s ease;
+        }
+
+        .review-text.expanded {
+            /* Wenn die Klasse 'expanded' per Knopfdruck aktiv wird, heben wir die 4-Zeilen-Begrenzung auf */
+            -webkit-line-clamp: unset;
+        }
+
+        .read-more-btn {
+            /* Das Design für den interaktiven "Weiterlesen" Text-Button */
+            background: none;
+            /* Kein klobiger grauer Kasten als Hintergrund */
+            border: none;
+            /* Kein Rahmen */
+            color: #2980b9;
+            /* Blau, signalisiert wie ein Link, dass es klickbar ist */
+            font-size: 0.85rem;
+            /* Etwas kleiner als der Fließtext */
+            font-weight: bold;
+            /* Fett gedruckt */
+            padding: 0;
+            /* Keine inneren Abstände */
+            margin-top: 5px;
+            /* Etwas Luft zum Bewertungstext */
+            cursor: pointer;
+            /* Zeigt die Hand-Maus beim Drüberfahren */
+            text-align: left;
+            /* Button wird linksbündig ausgerichtet */
+        }
+
+        .read-more-btn:hover {
+            /* Das passiert, wenn man mit der Maus über "Weiterlesen" fährt */
+            text-decoration: underline;
+            /* Er wird unterstrichen */
+            color: #1c5980;
+            /* Das Blau wird etwas dunkler */
+        }
+
+        .overall-rating-text {
+            /* Das Design für den "Google Gesamtbewertung..." Text unter dem Karussell */
+            margin-top: 15px;
+            /* Abstand nach oben zum Karussell */
+            font-size: 0.9rem;
+            /* Kleine Schriftgröße */
+            color: #666;
+            /* Dezentes Grau */
+            display: flex;
+            /* Flexbox, um das Icon und den Text auf einer Höhe zu halten */
+            align-items: center;
+            /* Vertikal mittig ausrichten */
+            justify-content: center;
+            /* Zentriert den gesamten Block */
+            gap: 5px;
+            /* Kleiner Abstand zwischen Elementen */
+            flex-wrap: wrap;
+            /* Falls der Text auf dem Handy zu lang ist, bricht er sauber um */
+        }
+
+        .all-reviews-link {
+            /* Das Design für den Link zu allen Bewertungen */
+            color: #2980b9;
+            /* Wir geben dem Link die blaue Farbe deiner Unterüberschrift */
+            text-decoration: none;
+            /* Wir entfernen den Standard-Unterstrich */
+            font-weight: bold;
+            /* Wir machen den Link fett, damit er gut klickbar aussieht */
+            margin-left: 5px;
+            /* Ein kleiner Abstand zum Text davor */
+            transition: color 0.3s;
+            /* Weicher Farbübergang beim Drüberfahren */
+        }
+
+        .all-reviews-link:hover {
+            /* Wenn man mit der Maus über den Link fährt */
+            text-decoration: underline;
+            /* Erscheint ein Unterstrich, das signalisiert Klickbarkeit */
+            color: #1c5980;
+            /* Das Blau wird etwas dunkler */
+        }
+
+        .contact-btn {
+            /* Das ist dein "Call-to-Action" Kontakt-Button */
+            background-color: #27ae60;
+            /* Ein sattes, vertrauensvolles Grün, das signalisiert: "Hier klicken!" */
+            color: white;
+            /* Die Schrift auf dem Button ist weiß */
+            text-decoration: none;
+            /* Wir entfernen den Unterstrich des Links, damit es wie ein echter Button aussieht */
+            padding: 15px 30px;
+            /* Der Button bekommt großzügige innere Abstände, damit man ihn gut auf Touchscreens treffen kann */
+            border-radius: 25px;
+            /* Die Ecken werden sehr stark abgerundet (Pillenform) für einen modernen Look */
+            font-size: 1.2rem;
+            /* Die Schriftgröße auf dem Button */
+            font-weight: bold;
+            /* Die Schrift wird fett */
+            transition: background-color 0.3s;
+            /* Wenn man mit der Maus drüber fährt, ändert sich die Farbe nicht schlagartig, sondern mit einem weichen 0.3 Sekunden Übergang */
+        }
+
+        .contact-btn:hover {
+            /* Das definiert, was passiert, wenn man mit der Maus über den Button fährt (Hover-Effekt) */
+            background-color: #2ecc71;
+            /* Das Grün wird ein kleines bisschen heller, als interaktives Feedback */
+>>>>>>> d21a8214a9370a95604d84d767b8c723ce13a298
         }
     </style>
 </head>
@@ -357,8 +619,36 @@
     </footer>
 
     <script>
+<<<<<<< HEAD
         // --- 1. FUNKTION FÜR DEN WEITERLESEN BUTTON ---
         // Diese Funktion klappt zu lange Google-Bewertungstexte auf oder zu
+=======
+        // --- NEUE SICHERHEITSFUNKTION ---
+        // Diese Funktion schützt uns vor böswilligem Code in fremden Texten (XSS-Schutz).
+        // Wir übergeben ihr einen beliebigen Text (wie den Namen oder die Bewertung eines Nutzers).
+        function escapeHTML(str) {
+            // Falls der übergebene Text leer oder ungültig ist, geben wir zur Sicherheit einen leeren Text zurück.
+            if (!str) return "";
+            // Wir suchen im Text nach Zeichen, die der Browser als Programmier-Befehle missverstehen könnte: &, <, >, ', "
+            // Die .replace() Methode tauscht diese Zeichen durch harmlose HTML-Platzhalter aus.
+            return str.replace(/[&<>'"]/g, function(tag) {
+                // Hier definieren wir, welches gefährliche Zeichen durch welchen harmlosen Text ersetzt wird.
+                const charsToReplace = {
+                    '&': '&amp;', // Macht aus einem & Zeichen das sichere &amp;
+                    '<': '&lt;',  // Macht aus der öffnenden spitzen Klammer (gefährlich für Skripte) ein harmloses &lt;
+                    '>': '&gt;',  // Macht aus der schließenden Klammer ein harmloses &gt;
+                    "'": '&#39;', // Macht aus dem einfachen Anführungsstrich ein &#39;
+                    '"': '&quot;' // Macht aus dem doppelten Anführungsstrich ein &quot;
+                };
+                // Gibt das entschärfte Zeichen zurück an den Text.
+                return charsToReplace[tag] || tag;
+            });
+        }
+        // --- ENDE SICHERHEITSFUNKTION ---
+
+
+        // Diese Funktion wird vom Browser aufgerufen, sobald jemand auf den "Weiterlesen" Button klickt
+>>>>>>> d21a8214a9370a95604d84d767b8c723ce13a298
         function toggleReadMore(buttonElement) {
             // Sucht die Karte (den weißen Hintergrund), in der der Button geklickt wurde
             const card = buttonElement.closest('div.bg-white');
@@ -462,12 +752,17 @@
                             // Erstellt die gelben Font-Awesome Sterne basierend auf der Bewertungszahl (z.B. 5 ausgefüllte Sterne)
                             const starsHTML = '<i class="fas fa-star"></i>'.repeat(review.rating) + '<i class="far fa-star"></i>'.repeat(5 - review.rating);
                             
+<<<<<<< HEAD
                             // Prüft, ob der Text länger als 150 Zeichen ist. Wenn ja, fügen wir den "Weiterlesen" Button hinzu
+=======
+                            // Wir prüfen, ob der Bewertungstext lang genug ist (mehr als 150 Zeichen), um einen Button zu rechtfertigen
+>>>>>>> d21a8214a9370a95604d84d767b8c723ce13a298
                             let readMoreButtonHTML = '';
                             if (review.text && review.text.length > 150) {
                                 readMoreButtonHTML = `<button class="text-blue-600 font-bold text-sm mt-3 text-left hover:text-blue-800 transition" onclick="toggleReadMore(this)">Weiterlesen</button>`;
                             }
 
+<<<<<<< HEAD
                             // Baut die HTML-Struktur der Bewertungskarte zusammen und füllt sie mit unseren Variablen
                             sliderHTML += `
                                 <div class="bg-white p-6 rounded-3xl shadow-lg shadow-gray-200 border border-gray-100 min-w-[300px] w-[300px] md:min-w-[340px] md:w-[340px] snap-center flex flex-col hover:-translate-y-2 transition duration-300">
@@ -481,6 +776,22 @@
                                         ${googleIcon}
                                     </div>
                                     <div class="review-text text-sm text-gray-600 leading-relaxed line-clamp-4 transition-all duration-300">${review.text}</div>
+=======
+                            // WICHTIGE ÄNDERUNG: Wir schleusen authorName und review.text nun durch unsere neue escapeHTML() Funktion!
+                            // Dadurch können schädliche Befehle in Benutzernamen oder Texten nicht mehr als Code vom Browser interpretiert werden.
+                            sliderHTML += `
+                                <div class="review-card">
+                                    <div class="review-header">
+                                        <img src="${photoUri}" alt="${escapeHTML(authorName)}" class="review-avatar">
+                                        <div class="review-author-info">
+                                            <div class="review-author">${escapeHTML(authorName)}</div>
+                                            <div class="review-date">${dateString}</div>
+                                            <div class="review-stars">${starsHTML}</div>
+                                        </div>
+                                        ${googleIcon}
+                                    </div>
+                                    <div class="review-text">${escapeHTML(review.text)}</div>
+>>>>>>> d21a8214a9370a95604d84d767b8c723ce13a298
                                     ${readMoreButtonHTML}
                                 </div>
                             `;
@@ -527,6 +838,7 @@
         }
     </script>
     
+    <!-- Den API-Key in dieser Zeile musst du in der Google Cloud Console unbedingt einschränken! -->
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0ZxXeIbMH7Ll88U4Q0dSKKUseFw06eSA&loading=async&libraries=places&callback=initMap"></script>
 
     <div id="emailPopup" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/60 backdrop-blur-sm transition-opacity">
