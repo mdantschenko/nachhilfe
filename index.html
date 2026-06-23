@@ -1,606 +1,369 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="hell" data-headfont="serif">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MatheGanzEinfach | Private Online Nachhilfe</title>
-    <script src="js/tailwindcss.js"></script>
-    
-    <link href="fontawesome/css/all.min.css" rel="stylesheet">
-    
-    <style>
-        /* --- START DER LOKALEN SCHRIFTART-EINBINDUNG (DSGVO KONFORM) --- */
-        
-        /* Wir definieren die Schriftart 'Inter' in der Schriftstärke 300 (Light / Dünn) */
-        @font-face {
-            /* Der Name, unter dem wir die Schriftart später im CSS aufrufen */
-            font-family: 'Inter';
-            /* Der Schriftstil ist normal, also nicht kursiv */
-            font-style: normal;
-            /* 300 definiert ein leichtes, dünneres Schriftbild */
-            font-weight: 300;
-            /* 'swap' sorgt dafür, dass sofort eine Systemschrift angezeigt wird, bis unsere Inter-Schrift fertig geladen ist */
-            font-display: swap;
-            /* Wir geben den lokalen Pfad zur Datei an. Das moderne 'woff2'-Format ist extrem komprimiert und lädt sehr schnell. */
-            src: url('./fonts/inter-v20-latin-300.woff2') format('woff2');
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    // Set theme before first paint (saved choice → else system setting) to avoid any flash.
+    (function () {
+      try {
+        var saved = localStorage.getItem('mge-theme');
+        var sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', saved || (sysDark ? 'dunkel' : 'hell'));
+      } catch (e) {}
+    })();
+  </script>
+  <title>MatheGanzEinfach — Private Online-Nachhilfe in Mathe</title>
+  <meta name="description" content="Geduldige Online-Mathe-Nachhilfe für die Mittel- und Oberstufe — vom Mathe-Studenten mit über 6 Jahren Erfahrung und 100+ begleiteten Schülern. Erste Stunde ohne Risiko.">
+  <link rel="canonical" href="https://matheganzeinfach.com/">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1721" media="(prefers-color-scheme: dark)">
 
-        /* Wir definieren die Schriftart 'Inter' in der Schriftstärke 400 (Regular / Standard) */
-        @font-face {
-            font-family: 'Inter';
-            font-style: normal;
-            /* 400 ist die Standard-Dicke, die wir für ganz normalen Fließtext verwenden */
-            font-weight: 400;
-            font-display: swap;
-            /* Der lokale Pfad zur regulären Schrift-Datei */
-            src: url('./fonts/inter-v20-latin-regular.woff2') format('woff2');
-        }
+  <!-- Open Graph / Link-Vorschau (z. B. WhatsApp) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MatheGanzEinfach">
+  <meta property="og:title" content="MatheGanzEinfach — Private Online-Nachhilfe in Mathe">
+  <meta property="og:description" content="Geduldige Einzelnachhilfe per Zoom für die Mittel- und Oberstufe. Über 6 Jahre Erfahrung, 100+ Schüler begleitet — erste Stunde ohne Risiko.">
+  <meta property="og:url" content="https://matheganzeinfach.com/">
+  <meta property="og:image" content="https://matheganzeinfach.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="de_DE">
+  <meta name="twitter:card" content="summary_large_image">
 
-        /* Wir definieren die Schriftart 'Inter' in der Schriftstärke 600 (Semi-Bold / Halbfett) */
-        @font-face {
-            font-family: 'Inter';
-            font-style: normal;
-            /* 600 nutzen wir für leicht hervorgehobenen Text oder kleine Zwischenüberschriften */
-            font-weight: 600;
-            font-display: swap;
-            /* Der lokale Pfad zur halbfetten Schrift-Datei */
-            src: url('./fonts/inter-v20-latin-600.woff2') format('woff2');
-        }
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://matheganzeinfach.com/#business",
+    "name": "MatheGanzEinfach",
+    "description": "Private Online-Mathe-Nachhilfe für die Mittel- und Oberstufe. Geduldige Einzelnachhilfe per Zoom — über 6 Jahre Erfahrung, mehr als 100 Schüler begleitet.",
+    "url": "https://matheganzeinfach.com/",
+    "image": "https://matheganzeinfach.com/assets/og-image.png",
+    "email": "info@matheganzeinfach.com",
+    "telephone": "+4917661516445",
+    "address": { "@type": "PostalAddress", "addressLocality": "Düsseldorf", "addressCountry": "DE" },
+    "areaServed": "Deutschland",
+    "founder": { "@type": "Person", "name": "Michael" },
+    "knowsAbout": "Mathematik"
+  }
+  </script>
 
-        /* Wir definieren die Schriftart 'Inter' in der Schriftstärke 700 (Bold / Fett) */
-        @font-face {
-            font-family: 'Inter';
-            font-style: normal;
-            /* 700 ist klassisch fett, ideal für normale Überschriften, damit sie sich abheben */
-            font-weight: 700;
-            font-display: swap;
-            /* Der lokale Pfad zur fetten Schrift-Datei */
-            src: url('./fonts/inter-v20-latin-700.woff2') format('woff2');
-        }
-
-        /* Wir definieren die Schriftart 'Inter' in der Schriftstärke 800 (Extra-Bold / Sehr Fett) */
-        @font-face {
-            font-family: 'Inter';
-            font-style: normal;
-            /* 800 nutzen wir für deine ganz großen, markanten Hauptüberschriften (wie "Hi, ich bin Michael") */
-            font-weight: 800;
-            font-display: swap;
-            /* Der lokale Pfad zur extra-fetten Schrift-Datei */
-            src: url('./fonts/inter-v20-latin-800.woff2') format('woff2');
-        }
-
-        /* --- HIER STARTET UNSER MINIMALES CUSTOM CSS --- */
-        
-        /* Diese Regeln gelten für das gesamte HTML-Dokument */
-        html {
-            /* Sorgt für weiches, flüssiges Scrollen, wenn man im Menü auf einen Link klickt */
-            scroll-behavior: smooth;
-            /* Setzt einen unsichtbaren Abstand nach oben beim Scrollen, damit unsere fixierte Navbar keine Texte verdeckt */
-            scroll-padding-top: 80px;
-        }
-
-        /* Diese Regeln gelten für den Körper der Webseite (alles Sichtbare) */
-        body {
-            /* Wir weisen dem gesamten Text die Schriftart Inter zu, die wir oben lokal geladen haben. */
-            font-family: 'Inter', sans-serif;
-            /* Verhindert, dass die Seite seitlich scrollt oder wackelt, falls z.B. eine Animation über den Rand hinausragt */
-            overflow-x: hidden; 
-        }
-
-        /* Eine eigene Klasse für den schönen Farbverlauf im Text */
-        .gradient-text {
-            /* Erstellt einen linearen Verlauf im Winkel von 135 Grad von einem helleren Blau zu einem dunkleren Blau */
-            background: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%);
-            /* Diese beiden Anweisungen sorgen dafür, dass der Hintergrund (der Verlauf) nur exakt dort sichtbar ist, wo Text steht */
-            -webkit-background-clip: text;
-            background-clip: text;
-            /* Macht die eigentliche Farbe des Textes durchsichtig, damit der dahinterliegende Verlauf sichtbar wird */
-            -webkit-text-fill-color: transparent;
-        }
-        
-        /* Das Styling für die runden, unscharfen Farbkleckse im Hintergrund */
-        .blob {
-            /* Löst das Element aus dem normalen Fluss, damit wir es frei im Hintergrund platzieren können */
-            position: absolute;
-            /* Zieht das Element extrem stark weich, sodass keine harten Kanten mehr sichtbar sind */
-            filter: blur(60px);
-            /* Schiebt die Kleckse auf eine negative Ebene, also komplett hinter alle anderen Inhalte (Texte/Bilder) */
-            z-index: -1;
-            /* Macht die Kleckse leicht durchsichtig (40% Deckkraft), damit sie nicht so aufdringlich wirken */
-            opacity: 0.4;
-            /* Wendet die unten definierte Wackel-Animation an: Dauert 20 Sekunden, läuft unendlich oft und wechselt immer die Richtung */
-            animation: moveBlob 20s infinite alternate;
-        }
-
-        /* Die Definition der Animation für die Hintergrund-Blobs */
-        @keyframes moveBlob {
-            /* Startposition: Genau da, wo das Element im HTML platziert wurde, in normaler Größe */
-            from { transform: translate(0, 0) scale(1); }
-            /* Endposition: Verschiebt sich um 20px nach rechts und 20px nach oben, wird dabei 10% größer */
-            to { transform: translate(20px, -20px) scale(1.1); }
-        }
-
-        /* Die Definition einer sanften Schwebe-Animation (z.B. für dein Profilbild) */
-        @keyframes float {
-            /* Startpunkt: Keine Verschiebung */
-            0% { transform: translateY(0px); }
-            /* Mittelpunkt nach der Hälfte der Zeit: Das Element schwebt um 15 Pixel nach oben */
-            50% { transform: translateY(-15px); }
-            /* Endpunkt: Das Element sinkt wieder auf die Ursprungsposition ab */
-            100% { transform: translateY(0px); }
-        }
-        
-        /* Die Hilfsklasse, die wir einem Element geben, um die Schwebe-Animation zu aktivieren */
-        .floating {
-            /* Führt die Float-Animation in 6 Sekunden aus, startet langsam, wird schneller und bremst langsam ab (ease-in-out) */
-            animation: float 6s ease-in-out infinite;
-        }
-
-        /* Spezifische Anweisung für Safari/Chrome, um den Scrollbalken im Google-Bewertungs-Karussell zu verstecken */
-        .hide-scrollbar::-webkit-scrollbar {
-            /* Versteckt das visuelle Element des Scrollbalkens */
-            display: none;
-        }
-        /* Spezifische Anweisung für Firefox und Internet Explorer/Edge, um den Scrollbalken zu verstecken */
-        .hide-scrollbar {
-            /* IE und Edge Methode */
-            -ms-overflow-style: none;
-            /* Firefox Methode */
-            scrollbar-width: none;
-        }
-    </style>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-blue-100 selection:text-blue-900">
+<body>
 
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100/50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center group cursor-pointer">
-                    <a href="#" class="text-2xl font-extrabold text-blue-600 tracking-tight no-underline flex items-center gap-2 transition-colors">
-                        <span>Mathe<span class="text-gray-900">GanzEinfach</span></span>
-                    </a>
-                </div>
-                
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#ablauf" class="text-gray-600 hover:text-blue-600 font-medium transition hover:-translate-y-0.5">Ablauf</a>
-                    <a href="#rezensionen" class="text-gray-600 hover:text-blue-600 font-medium transition hover:-translate-y-0.5">Erfolge</a>
-                    
-                    <a href="https://wa.me/4917661516445?text=Hallo!%20Ich%20interessiere%20mich%20f%C3%BCr%20Mathe-Nachhilfe." target="_blank" class="bg-green-500 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-green-600 transition shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:-translate-y-1">
-                        <i class="fab fa-whatsapp mr-2"></i> WhatsApp
-                    </a>
-                </div>
-            </div>
+  <!-- ============================ NAV ============================ -->
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand">Mathe<b>GanzEinfach</b></a>
+      <div class="nav-cta">
+        <button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navMenu" onclick="toggleMenu(this)">
+          <svg class="i-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg class="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="nav-links" id="navMenu">
+          <a class="nav-link" href="#ueber" onclick="closeMenu()">Über mich</a>
+          <a class="nav-link" href="#bewertungen" onclick="closeMenu()">Bewertungen</a>
+          <a class="nav-link" href="#ablauf" onclick="closeMenu()">Ablauf</a>
+          <a class="btn btn-primary nav-menu-book" href="#termin" onclick="closeMenu()">Termin anfragen</a>
         </div>
-    </nav>
-
-    <header id="hero" class="relative pt-32 pb-16 lg:pt-36 lg:pb-20 overflow-hidden flex items-center">
-        <div class="blob bg-blue-300 w-[500px] h-[500px] rounded-full top-0 left-0 -translate-x-1/3 -translate-y-2/3 mix-blend-multiply opacity-30"></div>
-        <div class="blob bg-purple-300 w-[500px] h-[500px] rounded-full bottom-0 right-0 translate-x-1/3 translate-y-1/3 mix-blend-multiply opacity-30" style="animation-delay: -10s;"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                
-                <div class="text-center lg:text-left order-2 lg:order-1">
-                    
-                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-4">
-                        Hi, ich bin <span class="gradient-text">Michael.</span>
-                    </h1>
-                    
-                    <p class="text-xl text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed text-justify">
-                        Schluss mit Panik vor der nächsten Klausur. Ich helfe dir dabei, Mathe endlich zu verstehen, entspannt, flexibel und 100 % auf dich abgestimmt.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        
-                        <a href="https://wa.me/4917661516445?text=Hallo!%20Ich%20interessiere%20mich%20f%C3%BCr%20Mathe-Nachhilfe." target="_blank"
-                           class="group flex items-center justify-center bg-green-500 text-white w-full sm:w-auto px-6 py-4 rounded-2xl hover:bg-green-600 transition shadow-xl shadow-green-500/30 hover:-translate-y-1 transform duration-200">
-                            <i class="fab fa-whatsapp text-3xl mr-3 group-hover:scale-110 transition"></i>
-                            <div class="text-left">
-                                <div class="text-xs uppercase font-medium text-green-100">Kostenlos anfragen</div>
-                                <div class="text-lg font-bold leading-none">WhatsApp</div>
-                            </div>
-                        </a>
-                        
-                        <button onclick="document.getElementById('emailPopup').classList.remove('hidden')"
-                           class="group flex items-center justify-center bg-blue-600 text-white w-full sm:w-auto px-6 py-4 rounded-2xl hover:bg-blue-700 transition shadow-xl shadow-blue-600/30 hover:-translate-y-1 transform duration-200 cursor-pointer border-none outline-none">
-                            <i class="fas fa-envelope text-3xl mr-3 group-hover:scale-110 transition"></i>
-                            <div class="text-left">
-                                <div class="text-xs uppercase font-medium text-blue-200">Schreibe mir eine</div>
-                                <div class="text-lg font-bold leading-none">E-Mail</div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="relative flex justify-center items-center order-1 lg:order-2 mb-2 lg:mb-0 w-full max-w-[340px] h-64 lg:max-w-none lg:w-80 lg:h-80 mx-auto flex-shrink-0">
-                    <div class="absolute w-[80%] h-[80%] bg-gradient-to-tr from-blue-200/50 to-purple-200/50 rounded-[2rem] lg:rounded-full blur-3xl"></div>
-                    
-                        <img src="bild.JPG" 
-                         alt="Profilbild Michael"
-                         class="w-full h-full object-cover rounded-[2rem] lg:rounded-full border-[6px] lg:border-[8px] border-white shadow-2xl z-10 relative">
-                    
-                        <a href="#rezensionen" class="absolute -bottom-6 right-2 lg:bottom-4 lg:-left-6 lg:right-auto bg-white/95 backdrop-blur p-4 rounded-xl shadow-2xl border border-gray-100 hover:scale-105 hover:-translate-y-1 transition-all duration-300 z-20 group no-underline">
-                        <div class="flex items-start gap-3.5">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" class="w-6 h-6 mt-0.5 flex-shrink-0">
-                            <div>
-                                <div class="flex items-baseline gap-1.5 mb-1">
-                                    <p class="font-extrabold text-gray-950 text-2xl leading-none tracking-tight">5.0</p>
-                                    <div class="text-yellow-400 text-xs flex space-x-0.5">
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                                <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider group-hover:text-blue-600 transition-colors">Google Bewertung</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </header>
-
-    <section id="rezensionen" class="py-20 bg-blue-50/30 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl lg:text-5xl font-extrabold text-gray-900 text-center mb-12">Das sagen meine Schüler</h2>
-            
-            <div id="reviews-wrapper" class="w-full flex flex-col items-center min-h-[300px] justify-center">
-                
-                <div id="gdpr-overlay" class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 text-center max-w-md w-full relative z-10">
-                    <div class="w-16 h-16 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
-                        <i class="fab fa-google"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Google Bewertungen anzeigen</h3>
-                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
-                        Um die echten Bewertungen meiner Schüler zu sehen, müssen wir eine Verbindung zu den Servern von Google aufbauen. Dabei wird deine IP-Adresse an Google übertragen.
-                    </p>
-                    <button onclick="loadGoogleMapsScript()" class="bg-blue-600 text-white px-6 py-3.5 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-600/30 w-full hover:-translate-y-0.5">
-                        Einverstanden & Laden
-                    </button>
-                </div>
-
-                <p id="loading-text" class="text-gray-500 text-lg animate-pulse hidden">Lade Bewertungen von Google...</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="ablauf" class="py-20 bg-gray-900 text-white overflow-hidden relative">
-        <div class="blob bg-blue-600 w-96 h-96 rounded-full top-0 right-0 mix-blend-overlay opacity-20"></div>
-        <div class="blob bg-purple-600 w-96 h-96 rounded-full bottom-0 left-0 mix-blend-overlay opacity-20"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-16">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-4">
-                    <i class="fas fa-play"></i> Der Prozess
-                </div>
-                <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight">
-                    So einfach <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">starten wir.</span>
-                </h2>
-            </div>
-
-            <div class="max-w-3xl mx-auto space-y-6">
-                <div class="bg-gray-800/50 backdrop-blur p-6 sm:p-8 rounded-3xl border border-gray-700 flex items-start gap-6 hover:bg-gray-800 transition duration-300">
-                    <div class="flex-shrink-0 w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-blue-500/30">1</div>
-                    <div>
-                        <h4 class="text-xl sm:text-2xl font-bold mb-2">Schreib mir unverbindlich</h4>
-                        <p class="text-gray-400 leading-relaxed">Melde dich einfach per <a href="https://wa.me/4917661516445?text=Hallo!%20Ich%20interessiere%20mich%20f%C3%BCr%20Mathe-Nachhilfe." target="_blank" rel="noopener" class="font-semibold text-green-400 underline decoration-dotted decoration-green-400/50 underline-offset-4 hover:text-green-300 hover:decoration-green-300 transition whitespace-nowrap"><i class="fab fa-whatsapp"></i> WhatsApp</a> oder <a href="mailto:info@matheganzeinfach.com?subject=Anfrage%20Nachhilfe" class="font-semibold text-blue-400 underline decoration-dotted decoration-blue-400/50 underline-offset-4 hover:text-blue-300 hover:decoration-blue-300 transition whitespace-nowrap"><i class="fas fa-envelope"></i> E-Mail</a> bei mir. Sag mir kurz, in welcher Klasse du bist und wo es hakt.</p>
-                    </div>
-                </div>
-                <div class="bg-gray-800/50 backdrop-blur p-6 sm:p-8 rounded-3xl border border-gray-700 flex items-start gap-6 hover:bg-gray-800 transition duration-300">
-                    <div class="flex-shrink-0 w-14 h-14 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-purple-500/30">2</div>
-                    <div>
-                        <h4 class="text-xl sm:text-2xl font-bold mb-2">Lagebesprechung & Start</h4>
-                        <p class="text-gray-400 leading-relaxed">Wir besprechen genau, wo es aktuell hakt und welches Ziel du erreichen willst. Sobald der Plan steht, legen wir direkt mit der ersten Stunde los.</p>
-                    </div>
-                </div>
-                <div class="bg-gray-800/50 backdrop-blur p-6 sm:p-8 rounded-3xl border border-gray-700 flex items-start gap-6 hover:bg-gray-800 transition duration-300">
-                    <div class="flex-shrink-0 w-14 h-14 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-green-500/30">3</div>
-                    <div>
-                        <h4 class="text-xl sm:text-2xl font-bold mb-2">Noten verbessern</h4>
-                        <p class="text-gray-400 leading-relaxed">Wir starten mit der Nachhilfe. Ich erkläre dir die Themen verständlich und bereite dich gezielt auf deine Prüfungen vor.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-gray-900 pt-16 pb-8 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <div>
-                    <a href="#" class="text-2xl font-extrabold text-blue-500 tracking-tight flex items-center gap-2 mb-4">
-                        <span>Mathe<span class="text-white">GanzEinfach</span></span>
-                    </a>
-                    <p class="text-gray-400 text-sm max-w-sm">
-                        Dein privater Online-Nachhilfelehrer für bessere Noten in der Mittelstufe und Oberstufe.
-                    </p>
-                </div>
-                <div class="md:text-right">
-                    <h4 class="font-bold text-white mb-4">Rechtliches</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="impressum.html" class="hover:text-blue-400 transition">Impressum</a></li>
-                        <li><a href="datenschutz.html" class="hover:text-blue-400 transition">Datenschutz</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="pt-8 border-t border-gray-800 text-center text-sm text-gray-500 flex flex-col sm:flex-row justify-between items-center">
-                <p>&copy; 2026 MatheGanzEinfach. Alle Rechte vorbehalten.</p>
-                <p class="mt-2 sm:mt-0">Made with <i class="fas fa-heart text-red-500 mx-1"></i> in Düsseldorf.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // --- DSGVO UPDATE: FUNKTION ZUM LADEN DES GOOGLE SCRIPTS ---
-        // Diese Funktion wird erst aufgerufen, wenn der Nutzer auf "Einverstanden & Laden" klickt
-        function loadGoogleMapsScript() {
-            // 1. Wir verstecken die DSGVO-Hinweis-Box
-            document.getElementById('gdpr-overlay').style.display = 'none';
-            
-            // 2. Wir zeigen den blinkenden Text "Lade echte Bewertungen..." an
-            const loadingText = document.getElementById('loading-text');
-            loadingText.classList.remove('hidden');
-            loadingText.style.display = 'block';
-
-            // 3. Wir erstellen per JavaScript dynamisch genau das <script> Tag, das wir vorhin aus dem HTML gelöscht haben
-            const script = document.createElement('script');
-            // Hier fügen wir deinen Google API Key ein und rufen danach die Funktion initMap() auf
-            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA0ZxXeIbMH7Ll88U4Q0dSKKUseFw06eSA&loading=async&libraries=places&callback=initMap";
-            script.async = true; // Sorgt dafür, dass die Seite nicht blockiert wird
-            
-            // 4. Wir hängen das neu erstellte Skript an den Body (das Ende der Seite) an. Jetzt erst funkt der Browser zu Google!
-            document.body.appendChild(script);
-        }
-
-        // --- NEUE GLOBALE VARIABLEN FÜR DAS KARUSSELL ---
-        let carouselInterval;
-        let isCarouselPaused = false;
-
-        // --- 1. FUNKTION FÜR DEN WEITERLESEN BUTTON ---
-        function toggleReadMore(buttonElement) {
-            // Pausiert das Karussell dauerhaft, damit der Nutzer in Ruhe lesen kann
-            isCarouselPaused = true;
-
-            const card = buttonElement.closest('div.bg-white');
-            const textContainer = card ? card.querySelector('.review-text') : null;
-
-            if (!textContainer) return;
-
-            document.querySelectorAll('.review-text.line-clamp-none').forEach(el => {
-                if (el !== textContainer) {
-                    el.classList.remove('line-clamp-none');
-                    el.classList.add('line-clamp-4'); 
-                    const otherButton = el.parentElement.querySelector('button');
-                    if (otherButton) otherButton.textContent = 'Weiterlesen';
-                }
-            });
-
-            if (textContainer.classList.contains('line-clamp-4')) {
-                textContainer.classList.remove('line-clamp-4');
-                textContainer.classList.add('line-clamp-none');
-                buttonElement.textContent = 'Weniger anzeigen';
-            } else {
-                textContainer.classList.add('line-clamp-4');
-                textContainer.classList.remove('line-clamp-none');
-                buttonElement.textContent = 'Weiterlesen';
-            }
-        }
-
-        // --- 1.1 FUNKTIONEN FÜR DIE KARUSSELL-DREHUNG ---
-        function startCarousel() {
-            const slider = document.getElementById('review-slider');
-            if (!slider) return;
-            
-            // Dreht das Karussell alle 3.5 Sekunden
-            carouselInterval = setInterval(() => {
-                if (!isCarouselPaused) {
-                    if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
-                        slider.scrollTo({ left: 0, behavior: 'smooth' });
-                    } else {
-                        slider.scrollBy({ left: 340, behavior: 'smooth' }); 
-                    }
-                }
-            }, 3500); 
-
-            // Pausiert auch, solange die Maus über einer Bewertung schwebt
-            slider.addEventListener('mouseenter', () => isCarouselPaused = true);
-            slider.addEventListener('mouseleave', () => {
-                // Fährt nur fort, wenn aktuell kein Text per "Weiterlesen" aufgeklappt ist
-                if(!document.querySelector('.review-text.line-clamp-none')) {
-                    isCarouselPaused = false;
-                }
-            });
-        }
-
-        function scrollCarousel(direction) {
-            const slider = document.getElementById('review-slider');
-            if (slider) {
-                isCarouselPaused = true; // Bei Klick auf Pfeile Automatik stoppen
-                slider.scrollBy({ left: direction * 340, behavior: 'smooth' });
-            }
-        }
-
-        // --- 2. GOOGLE MAPS API FUNKTION ---
-        // Lädt dynamisch die Rezensionen von deinem Google My Business Eintrag. Wird jetzt erst nach Klick ausgeführt!
-        async function initMap() {
-            // Findet den Haupt-Container für die Bewertungen
-            const wrapper = document.getElementById('reviews-wrapper');
-            // Findet den Lade-Text
-            const loadingText = document.getElementById('loading-text');
-            
-            try {
-                // Lädt asynchron die Google Places Bibliothek
-                const { Place } = await google.maps.importLibrary("places");
-                
-                // Erstellt ein Place-Objekt mit deiner spezifischen Google ID
-                const place = new Place({
-                    id: 'ChIJIcyqwEvzZaARAfWz1IEaPRA', 
-                    // Erzwingt, dass Google die deutschen Bewertungen ausliefert
-                    requestedLanguage: 'de' 
-                });
-
-                // Zieht die relevanten Datenpaare (Bewertungen, Sterne, Anzahl) von Google
-                await place.fetchFields({ fields: ['reviews', 'rating', 'userRatingCount', 'googleMapsURI'] });
-
-                // Prüft, ob es überhaupt Bewertungen gibt
-                if (place.reviews && place.reviews.length > 0) {
-                    
-                    // Filtert schlechte Bewertungen raus, wir wollen nur 4 und 5 Sterne zeigen
-                    const goodReviews = place.reviews.filter(review => review.rating >= 4);
-                    
-                    if (goodReviews.length > 0) {
-                        
-                        // Sortiert die Liste chronologisch, damit die neuesten Bewertungen zuerst stehen
-                        goodReviews.sort((a, b) => {
-                            const timeA = a.publishTime ? a.publishTime.getTime() : 0;
-                            const timeB = b.publishTime ? b.publishTime.getTime() : 0;
-                            return timeB - timeA;
-                        });
-
-                        // Wir schneiden die Liste nach den ersten (neuesten) 5 Bewertungen ab
-                        const newestFiveReviews = goodReviews.slice(0, 5);
-
-                        // Der Datenabruf war erfolgreich, wir verstecken nun den "Lade..." Text
-                        loadingText.style.display = 'none';
-
-                        // Wir bauen den HTML-Code für das Scroll-Karussell zusammen (linksbündig, mit Pfeilen)
-                        let sliderHTML = `
-                            <div class="relative w-full overflow-hidden group">
-                                <button onclick="scrollCarousel(-1)" class="absolute left-0 top-[40%] -translate-y-1/2 z-20 bg-white/90 shadow-lg rounded-full w-12 h-12 flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:scale-105 transition border border-gray-100 hidden md:flex cursor-pointer">
-                                    <i class="fas fa-chevron-left text-xl"></i>
-                                </button>
-                                
-                                <div id="review-slider" class="flex gap-6 overflow-x-auto pb-10 pt-4 w-full snap-x snap-mandatory hide-scrollbar items-start px-4 justify-start scroll-smooth relative z-10">
-                        `;
-
-                        // Wir gehen nun jede der 5 Bewertungen in einer Schleife durch
-                        newestFiveReviews.forEach(review => {
-                            // Namen abrufen oder als "Google Nutzer" betiteln, falls anonym
-                            const authorName = review.authorAttribution ? review.authorAttribution.displayName : "Google Nutzer";
-                            // Profilbild abrufen, falls keins vorhanden ist, nehmen wir ein Standardbild
-                            const photoUri = review.authorAttribution && review.authorAttribution.photoURI 
-                                ? review.authorAttribution.photoURI 
-                                : 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
-                                
-                            // Das kleine Google 'G' Symbol für oben rechts in der Karte
-                            const googleIcon = '<img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" class="w-5 h-5 opacity-80">';
-                            
-                            // Formatiert das Datum in ein schönes deutsches Format (z.B. "Mai 11, 2026")
-                            let dateString = "";
-                            if (review.publishTime) {
-                                const months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-                                const d = review.publishTime;
-                                dateString = `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-                            }
-
-                            // Erstellt die gelben Font-Awesome Sterne basierend auf der Bewertungszahl (z.B. 5 ausgefüllte Sterne)
-                            const starsHTML = '<i class="fas fa-star"></i>'.repeat(review.rating) + '<i class="far fa-star"></i>'.repeat(5 - review.rating);
-                            
-                            // Prüft, ob der Text länger als 150 Zeichen ist. Wenn ja, fügen wir den "Weiterlesen" Button hinzu
-                            let readMoreButtonHTML = '';
-                            if (review.text && review.text.length > 150) {
-                                readMoreButtonHTML = `<button class="text-blue-600 font-bold text-sm mt-3 text-left hover:text-blue-800 transition" onclick="toggleReadMore(this)">Weiterlesen</button>`;
-                            }
-
-                            // Baut die HTML-Struktur der Bewertungskarte zusammen und füllt sie mit unseren Variablen
-                            sliderHTML += `
-                                <div class="bg-white p-6 rounded-3xl shadow-lg shadow-gray-200 border border-gray-100 min-w-[300px] w-[300px] md:min-w-[340px] md:w-[340px] snap-center flex flex-col hover:-translate-y-2 transition duration-300">
-                                    <div class="flex items-center mb-4">
-                                        <img src="${photoUri}" alt="${authorName}" class="w-12 h-12 rounded-full mr-4 object-cover border border-gray-100">
-                                        <div class="flex-grow">
-                                            <div class="font-bold text-gray-900 leading-tight">${authorName}</div>
-                                            <div class="text-xs text-gray-500 mt-0.5">${dateString}</div>
-                                            <div class="text-yellow-400 text-sm mt-1 flex space-x-0.5">${starsHTML}</div>
-                                        </div>
-                                        ${googleIcon}
-                                    </div>
-                                    <div class="review-text text-sm text-gray-600 leading-relaxed line-clamp-4 transition-all duration-300">${review.text}</div>
-                                    ${readMoreButtonHTML}
-                                </div>
-                            `;
-                        });
-
-                        // Schließt den flex-Container für das Karussell ab und fügt den rechten Pfeil hinzu
-                        sliderHTML += `
-                                </div>
-                                <button onclick="scrollCarousel(1)" class="absolute right-0 top-[40%] -translate-y-1/2 z-20 bg-white/90 shadow-lg rounded-full w-12 h-12 flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:scale-105 transition border border-gray-100 hidden md:flex cursor-pointer">
-                                    <i class="fas fa-chevron-right text-xl"></i>
-                                </button>
-                            </div>
-                        `;
-                        
-                        // Ruft den Gesamt-Durchschnitt der Google-Sterne ab (z.B. "5.0")
-                        const ratingValue = place.rating ? place.rating.toFixed(1) : ""; 
-                        // Ruft die Gesamtzahl aller Bewertungen ab
-                        const ratingCount = place.userRatingCount ? place.userRatingCount : ""; 
-                        // Erstellt den direkten Link zu deinem Google Maps Profil
-                        const profileLink = place.googleMapsURI ? place.googleMapsURI : `https://search.google.com/local/reviews?placeid=ChIJIcyqwEvzZaARAfWz1IEaPRA`;
-                        
-                        // Baut die kleine Infoleiste ("Gesamtbewertung 5.0 von 5 - Alle 12 ansehen") für unter das Karussell zusammen
-                        let footerHTML = '';
-                        if (ratingValue && ratingCount) {
-                            footerHTML = `
-                                <div class="mt-4 inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm border border-gray-100 text-sm text-gray-600 font-medium">
-                                    <i class="fab fa-google text-lg"></i>
-                                    Gesamtbewertung ${ratingValue} von 5 - 
-                                    <a href="${profileLink}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline transition">(Alle ${ratingCount} ansehen)</a>
-                                </div>
-                            `;
-                        }
-
-                        // Schreibt unseren generierten HTML-Code direkt in den vorher leeren Wrapper auf der Seite
-                        wrapper.innerHTML = sliderHTML + footerHTML;
-                        
-                        // Startet die automatische Karussell-Rotation
-                        startCarousel();
-
-                    } else {
-                        // Falls alle Bewertungen unter 4 Sterne haben
-                         wrapper.innerHTML = '<p class="text-gray-500">Noch keine passenden Bewertungen vorhanden.</p>';
-                    }
-                } else {
-                    // Falls Google überhaupt keine Bewertungen zurückliefert
-                    wrapper.innerHTML = '<p class="text-gray-500">Keine Rezensionen gefunden.</p>';
-                }
-            } catch (error) {
-                // Fehlerbehandlung: Wenn z.B. der API-Schlüssel falsch ist oder Google down ist
-                wrapper.innerHTML = '<p class="text-red-500">Rezensionen konnten nicht geladen werden.</p>';
-                console.error("Fehlerdetails:", error);
-            }
-        }
-    </script>
-
-    <div id="emailPopup" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-gray-900/60 backdrop-blur-sm transition-opacity">
-        <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full mx-4 relative">
-            <button onclick="document.getElementById('emailPopup').classList.add('hidden')" class="absolute top-4 right-5 text-gray-400 hover:text-gray-800 transition text-2xl border-none bg-transparent cursor-pointer">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="text-center mb-8 mt-2">
-                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-5 shadow-inner">
-                    <i class="fas fa-envelope-open-text"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-2">Kontakt aufnehmen</h3>
-                
-                <p class="text-sm text-gray-600 mb-6 leading-relaxed">
-                    Schreib mir gerne eine kurze Nachricht. Egal ob du Fragen hast oder wir direkt starten sollen, ich melde mich so schnell wie möglich bei dir zurück!
-                </p>
-                
-                <div class="flex flex-col items-center justify-center">
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Meine E-Mail:</p>
-                    <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 inline-block w-full max-w-[260px] mx-auto">
-                        <p class="text-[1.05rem] font-semibold text-blue-600 select-all tracking-tight m-0">info@matheganzeinfach.com</p>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="mailto:info@matheganzeinfach.com?subject=Anfrage%20Nachhilfe" class="flex items-center justify-center w-full bg-blue-600 text-white font-bold py-3.5 px-6 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-600/30 hover:-translate-y-0.5">
-                <i class="fas fa-paper-plane mr-2"></i> E-Mail App öffnen
-            </a>
-        </div>
+        <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Zwischen Hell- und Dunkelmodus wechseln" title="Hell-/Dunkelmodus">
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+        </button>
+        <a class="btn btn-primary nav-book" href="#termin">Termin anfragen</a>
+      </div>
     </div>
+  </nav>
+
+  <!-- ============================ HERO ============================ -->
+  <header class="hero" id="top" data-screen-label="Hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy reveal">
+        <span class="kicker">Private Online-Nachhilfe · Mathematik</span>
+        <h1>Mathe, das Ihr Kind<br><em>endlich versteht.</em></h1>
+        <p class="hero-lead">
+          Geduldige Einzelnachhilfe online für die Mittelstufe und Oberstufe.
+          Ich hole Ihr Kind genau dort ab, wo es gerade steht, und bereite es
+          ruhig und gezielt auf die nächste Klausur vor.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="#termin">Termin anfragen</a>
+          <a class="btn btn-wa btn-lg" href="https://wa.me/4917661516445?text=Hallo%20Michael%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Mathe-Nachhilfe." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Direkt schreiben
+          </a>
+        </div>
+        <p class="hero-meta">
+          <span>Online per Zoom</span><span class="dot"></span>
+          <span>Flexible Zeiten</span><span class="dot"></span>
+          <span>Erste Stunde ohne Risiko</span>
+        </p>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Schüler begleitet</span></div>
+          <div class="stat"><span class="stat-num">6 Jahre</span><span class="stat-label">Erfahrung</span></div>
+          <div class="stat"><span class="stat-num">B.&#8202;Sc.</span><span class="stat-label">Mathematik-Student</span></div>
+        </div>
+      </div>
+
+      <div class="portrait reveal d1">
+        <div class="portrait-frame">
+          <img src="assets/bild.JPG" alt="Michael, Mathe-Nachhilfelehrer" width="1169" height="1000" fetchpriority="high" decoding="async">
+        </div>
+        <a class="gchip" href="#bewertungen" aria-label="Google-Bewertung 5,0 von 5">
+          <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <div>
+            <div class="g-score">5,0</div>
+            <div class="stars">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </div>
+            <div class="g-label">Google-Bewertung</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ ÜBER MICH ============================ -->
+  <section class="section about" id="ueber" data-screen-label="Über mich">
+    <div class="wrap about-grid">
+      <div class="about-text reveal">
+        <span class="kicker">Über mich</span>
+        <h2>Ein Lehrer, kein Lernportal.</h2>
+        <p>
+          Ich bin Michael, Mathematikstudent (B. Sc.) an der Bergischen Universität
+          Wuppertal und seit über sechs Jahren Nachhilfelehrer. Mehr als 100 Schülerinnen
+          und Schüler habe ich bis zum Abitur begleitet, in privater Einzelnachhilfe
+          und in Abiturkursen.
+        </p>
+        <p>
+          Bei mir landet niemand in einer großen Gruppe oder vor einem fertigen Video:
+          Wir arbeiten zu zweit, im eigenen Tempo. Wir gehen den Stoff so lange durch,
+          bis er wirklich sitzt, und Ihr Kind mit einem guten Gefühl in die nächste
+          Klausur geht.
+        </p>
+        <p class="signoff">— Michael, MatheGanzEinfach</p>
+      </div>
+
+      <div class="facts reveal d1">
+        <div class="fact">
+          <span class="fact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="m15 10 6-3.5v11L15 14"/></svg></span>
+          <div><h4>Online per Zoom</h4><p>Bequem von zu Hause — kein Anfahrtsweg.</p></div>
+        </div>
+        <div class="fact">
+          <span class="fact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg></span>
+          <div><h4>Mittel- &amp; Oberstufe</h4><p>Von der Mittelstufe bis zur Abivorbereitung.</p></div>
+        </div>
+        <div class="fact">
+          <span class="fact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <div><h4>Flexibel, ohne Bindung</h4><p>Termine nach Absprache, meist 90 Minuten — keine Vertragsbindung.</p></div>
+        </div>
+        <div class="fact">
+          <span class="fact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <div><h4>Ohne Risiko starten</h4><p>Passt es nicht, ist die erste Stunde kostenlos.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ BEWERTUNGEN ============================ -->
+  <section class="section reviews" id="bewertungen" data-screen-label="Bewertungen">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="kicker">Bewertungen</span>
+        <h2>Das sagen meine Schülerinnen und Schüler.</h2>
+      </div>
+      <div class="testimonials">
+        <article class="tcard">
+          <span class="t-stars" aria-label="5 von 5 Sternen">★★★★★</span>
+          <blockquote>„Entspanntes, verständliches Lernen in einer angenehmen Atmosphäre […] Dadurch habe ich mich von einer 5, die sich über Jahre gezogen hat, auf eine 1+ verbessert. Man merkt sofort: Ich darf Fehler machen, ich darf nachfragen, auch zum 1000. Mal.“</blockquote>
+          <div class="t-foot"><span class="t-name">Smilla</span><span class="t-detail">Note 5 → 1+ · bis zum Abitur</span></div>
+        </article>
+        <article class="tcard">
+          <span class="t-stars" aria-label="5 von 5 Sternen">★★★★★</span>
+          <blockquote>„Alles einwandfrei in ‚Schülersprache‘ erklärt, sodass ich das, was ich in zwei Jahren LK-Unterricht nur halb verstanden habe, am Ende draufhatte. Von einer durchschnittlichen 4 habe ich mich auf eine 2+ in der Abiturklausur verbessert.“</blockquote>
+          <div class="t-foot"><span class="t-name">Maxim</span><span class="t-detail">Note 4 → 2+ · Abitur-Crashkurs</span></div>
+        </article>
+        <article class="tcard">
+          <span class="t-stars" aria-label="5 von 5 Sternen">★★★★★</span>
+          <blockquote>„Hat mir beim Abi sehr geholfen! Einfach und verständlich. Ich konnte die Inhalte gut wiederholen, da man die Folien jeder Nachhilfestunde bekommt.“</blockquote>
+          <div class="t-foot"><span class="t-name">David</span><span class="t-detail">Abiturvorbereitung</span></div>
+        </article>
+      </div>
+      <div class="reviews-cta">
+        <span class="rstars" aria-hidden="true">★★★★★</span>
+        <span><strong>5,0</strong> bei Google</span>
+        <span class="sep"></span>
+        <a href="https://search.google.com/local/reviews?placeid=ChIJIcyqwEvzZaARAfWz1IEaPRA" target="_blank" rel="noopener">Alle Bewertungen ansehen →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ ABLAUF ============================ -->
+  <section class="section" id="ablauf" data-screen-label="Ablauf">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="kicker">Der Ablauf</span>
+        <h2>So einfach starten wir.</h2>
+        <p>Drei kleine Schritte — vom ersten „Hallo" bis zur ersten Stunde.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <h3>Unverbindlich melden</h3>
+          <p>Schreiben Sie mir kurz per
+            <a href="https://wa.me/4917661516445?text=Hallo%20Michael%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Mathe-Nachhilfe." target="_blank" rel="noopener">WhatsApp</a>
+            oder <a href="#" onclick="openEmailModal();return false;">E-Mail</a>, in welcher Klasse Ihr Kind ist und wo es gerade hakt.</p>
+        </div>
+        <div class="step reveal d1">
+          <div class="step-num">02</div>
+          <h3>Kennenlernen &amp; Plan</h3>
+          <p>Wir besprechen in Ruhe das Ziel und wann es zeitlich passt. Sobald der Plan steht, legen wir mit der ersten Stunde los.</p>
+        </div>
+        <div class="step reveal d2">
+          <div class="step-num">03</div>
+          <h3>Noten verbessern</h3>
+          <p>Ich erkläre die Themen verständlich und bereite Ihr Kind gezielt auf Klausuren und Prüfungen vor — Schritt für Schritt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TERMIN ============================ -->
+  <section class="section about" id="termin" data-screen-label="Termin anfragen">
+    <div class="wrap booking-grid">
+      <div class="booking-aside reveal">
+        <div class="sec-head">
+          <span class="kicker">Termin anfragen</span>
+          <h2>In 30 Sekunden zur Anfrage.</h2>
+          <p>Wählen Sie aus, was passt. Ihre Anfrage kommt direkt bei mir an. Ich melde mich persönlich und schnellstmöglich zurück.</p>
+        </div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Ohne Risiko — passt es nicht, ist die erste Stunde kostenlos.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Persönliche Antwort direkt von mir, nicht von einem Portal.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Online per Zoom — von überall in Deutschland.</li>
+        </ul>
+        <div class="price-tag">
+          <span class="price-amt">50&#8201;€<small>&nbsp;/ 90&#8201;Min.</small></span>
+          <span class="price-free">Passt die erste Stunde nicht, ist sie <b>kostenlos</b> — ganz ohne Vertragsbindung.</span>
+        </div>
+      </div>
+
+      <div class="booking-card reveal d1">
+        <div class="field">
+          <label for="booking-klasse">Klassenstufe</label>
+          <input id="booking-klasse" type="text" placeholder="z.B. 9. Klasse Gymnasium, Q1, Abitur">
+        </div>
+        <div class="field">
+          <label id="lbl-tag">Wunschtage <span class="label-note">(mehrere möglich)</span></label>
+          <div class="chips" data-chips="tag" role="group" aria-labelledby="lbl-tag">
+            <button class="chip" type="button" aria-pressed="false" data-value="Montag">Mo</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Dienstag">Di</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Mittwoch">Mi</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Donnerstag">Do</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Freitag">Fr</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Samstag">Sa</button>
+          </div>
+        </div>
+        <div class="field">
+          <label id="lbl-zeit">Uhrzeit <span class="label-note">(mehrere möglich)</span></label>
+          <div class="chips" data-chips="zeit" role="group" aria-labelledby="lbl-zeit">
+            <button class="chip" type="button" aria-pressed="false" data-value="Vormittags">Vormittags</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Mittags">Mittags</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Nachmittags">Nachmittags</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Früher Abend">Früher Abend</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Abends">Abends</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="booking-note">Worum geht's? <span class="label-note">(optional)</span></label>
+          <textarea id="booking-note" placeholder="z.B. anstehende Klausur in zwei Wochen, Thema Funktionen, aktuell Note 4 …"></textarea>
+        </div>
+        <div class="booking-actions">
+          <button class="btn btn-wa" type="button" onclick="bookViaWhatsApp()">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Anfrage per WhatsApp senden
+          </button>
+          <button class="btn btn-ghost" type="button" onclick="bookViaEmail()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Lieber per E-Mail
+          </button>
+        </div>
+        <p class="booking-note">Es wird nichts automatisch gebucht — Sie senden mir nur Ihre Wunschdaten, den Termin stimmen wir gemeinsam ab.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="footer" data-screen-label="Footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div>
+          <a href="#top" class="brand">Mathe<b>GanzEinfach</b></a>
+          <p class="footer-blurb">Private Online-Nachhilfe in Mathe für die Mittel- und Oberstufe. Persönlich, geduldig und ganz auf Ihr Kind abgestimmt.</p>
+        </div>
+        <div class="footer-cols">
+          <div>
+            <h4>Seite</h4>
+            <ul class="footer-links">
+              <li><a href="#ueber">Über mich</a></li>
+              <li><a href="#bewertungen">Bewertungen</a></li>
+              <li><a href="#ablauf">Ablauf</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Kontakt</h4>
+            <ul class="footer-links">
+              <li><a href="https://wa.me/4917661516445" target="_blank" rel="noopener">WhatsApp</a></li>
+              <li><a href="#" onclick="openEmailModal();return false;">E-Mail</a></li>
+              <li><a href="#termin">Termin anfragen</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Rechtliches</h4>
+            <ul class="footer-links">
+              <li><a href="impressum.html">Impressum</a></li>
+              <li><a href="datenschutz.html">Datenschutz</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 MatheGanzEinfach</span>
+        <span>Aus Düsseldorf.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================ E-MAIL MODAL ============================ -->
+  <div class="modal" id="emailModal" role="dialog" aria-modal="true" aria-label="Kontakt per E-Mail">
+    <div class="modal-card">
+      <button class="modal-close" aria-label="Schließen" onclick="closeEmailModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <h3>Schreiben Sie mir</h3>
+      <p>Egal ob Frage oder direkter Start — ich melde mich so schnell wie möglich bei Ihnen zurück.</p>
+      <div class="mail-box">
+        <span>Meine E-Mail</span>
+        <p><a href="mailto:info@matheganzeinfach.com">info@matheganzeinfach.com</a></p>
+      </div>
+      <a class="btn btn-primary btn-block" href="mailto:info@matheganzeinfach.com?subject=Anfrage%20Nachhilfe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        E-Mail-App öffnen
+      </a>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 
 </body>
 </html>
