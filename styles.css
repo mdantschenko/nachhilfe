@@ -106,6 +106,11 @@ h1, h2, h3, h4 {
 }
 
 /* ---------- Layout primitives ---------- */
+.section-surface { 
+  background: var(--surface); 
+  border-top: 1px solid var(--line); 
+  border-bottom: 1px solid var(--line); 
+}
 .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 28px; }
 .section { padding: clamp(64px, 9vw, 120px) 0; }
 
@@ -168,10 +173,9 @@ h1, h2, h3, h4 {
   z-index: 60;
   background: color-mix(in srgb, var(--paper) 86%, transparent);
   backdrop-filter: saturate(1.4) blur(10px);
-  border-bottom: 1px solid transparent;
-  transition: border-color .3s ease, background-color .3s ease;
+  border-bottom: 1px solid var(--line);
+  transition: background-color .3s ease;
 }
-.nav.scrolled { border-color: var(--line); }
 .nav-inner {
   height: 76px;
   display: flex;
@@ -272,7 +276,26 @@ html[data-theme="dunkel"] .theme-toggle .i-moon { display: none; }
   gap: clamp(36px, 6vw, 84px);
   align-items: center;
 }
-.hero-copy { max-width: 560px; }
+/* Container im Hero (Hintergrund ist Grau, Box wird Weiß) */
+.hero-copy {
+  max-width: 580px;
+  background: var(--paper);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lift);
+}
+html[data-theme="dunkel"] .hero-copy { background: var(--surface-2); }
+
+/* Container in Über Mich (Hintergrund ist Weiß, Box wird Grau) */
+.about-text {
+  background: var(--surface);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+html[data-theme="dunkel"] .about-text { background: var(--surface-2); }
 .hero h1 {
   font-size: clamp(42px, 6vw, 68px);
   margin: 22px 0 0;
@@ -457,7 +480,14 @@ html[data-theme="dunkel"] .portrait::before { opacity: .26; }
   padding: 34px 30px 34px 0;
   border-right: 1px solid var(--line);
   position: relative;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
+html[data-theme="dunkel"] .step { background: transparent; }
+.step:last-child { border-right: none; padding-right: 0; }
+.step:not(:last-child) { padding-right: 34px; }
+.step:not(:first-child) { padding-left: 34px; }
 .step:last-child { border-right: none; padding-right: 0; }
 .step:not(:last-child) { padding-right: 34px; }
 .step:not(:first-child) { padding-left: 34px; }
@@ -617,18 +647,26 @@ html[data-theme="dunkel"] .portrait::before { opacity: .26; }
 .booking-aside ul { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 14px; }
 .booking-aside li { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: var(--ink-2); }
 .booking-aside li svg { width: 20px; height: 20px; color: var(--accent); flex: none; margin-top: 2px; }
+.booking-aside {
+  background: var(--paper);
+  padding: clamp(26px, 3vw, 38px);
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lift);
+}
+html[data-theme="dunkel"] .booking-aside { background: var(--surface-2); }
 .price-tag {
   margin-top: 30px;
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 20px 22px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
+  padding: 20px 0 0 0; /* Padding angepasst */
+  background: transparent; /* Entfernt die eigene Hintergrundfarbe */
+  border: none;
+  border-top: 1px solid var(--line); /* Nur eine schicke Trennlinie nach oben */
+  box-shadow: none; /* Schatten entfernt */
 }
-html[data-theme="dunkel"] .price-tag { background: var(--surface-2); }
+html[data-theme="dunkel"] .price-tag { background: transparent; }
 .price-tag .price-amt {
   font-family: var(--font-display);
   font-size: 30px;
