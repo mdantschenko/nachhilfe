@@ -480,17 +480,17 @@ html[data-theme="dunkel"] .portrait::before { opacity: .26; }
   padding: 34px 30px 34px 0;
   border-right: 1px solid var(--line);
   position: relative;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
+  /* Der sanfte Fade von Grau zu Weiß */
+  background: linear-gradient(to bottom, var(--surface) 0%, var(--paper) 20%);
 }
-html[data-theme="dunkel"] .step { background: transparent; }
+/* Der Fade für den Darkmode */
+html[data-theme="dunkel"] .step {
+  background: linear-gradient(to bottom, var(--surface-2) 0%, var(--paper) 20%);
+}
 .step:last-child { border-right: none; padding-right: 0; }
 .step:not(:last-child) { padding-right: 34px; }
 .step:not(:first-child) { padding-left: 34px; }
-.step:last-child { border-right: none; padding-right: 0; }
-.step:not(:last-child) { padding-right: 34px; }
-.step:not(:first-child) { padding-left: 34px; }
+
 .step-num {
   font-family: var(--font-display);
   font-size: 15px;
