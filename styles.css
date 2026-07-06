@@ -194,7 +194,7 @@ h1, h2, h3, h4 {
   color: var(--ink);
   text-decoration: none;
 }
-.brand b { color: var(--accent); font-weight: 600; }
+.brand span { color: var(--accent); font-weight: 600; }
 .nav-links { display: flex; align-items: center; gap: 34px; }
 .nav-links a {
   font-size: 15px;
@@ -749,7 +749,7 @@ html[data-theme="dunkel"] .footer { background: #0a0f15; }
 .footer-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 32px; }
 .footer .brand { color: var(--paper); }
 html[data-theme="hell"] .footer .brand, :root .footer .brand { color: #fff; }
-.footer .brand b { color: var(--accent); }
+.footer .brand span { color: var(--accent); }
 .footer-blurb { font-size: 15px; margin-top: 16px; max-width: 36ch; line-height: 1.6; color: color-mix(in srgb, var(--paper) 58%, var(--ink)); }
 .footer h4 { font-family: var(--font-body); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: color-mix(in srgb, var(--paper) 50%, var(--ink)); font-weight: 700; }
 .footer-links { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 10px; }
