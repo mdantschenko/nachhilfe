@@ -1,22 +1,16 @@
-// Einmalige Cloudflare-Konfiguration für matheganzeinfach.com:
-//   1. SSL-Modus "Full (strict)"  (verhindert Redirect-Schleifen mit GitHub Pages)
-//   2. Always Use HTTPS
-//   3. Cache-Regel: /fonts/* und /assets/* für 1 Monat cachen (Edge + Browser)
-// Liest das API-Token aus .env.local (CLOUDFLARE_API=...); gibt es NIE aus.
-// Ausführen: node tools/cloudflare-setup.mjs
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const env = readFileSync(join(root, '.env.local'), 'utf8');
-const m = env.match(/^\s*CLOUDFLARE_API\s*=\s*["']?([^"'\r\n]+)/m);
-if (!m) {
+const tokenMatch = env.match(/^\s*CLOUDFLARE_API\s*=\s*["']?([^"'\r\n]+)/m);
+if (!tokenMatch) {
   console.error('CLOUDFLARE_API nicht in .env.local gefunden.');
   process.exit(1);
 }
-const TOKEN = m[1].trim();
-const ZONE = '60fa35d16670df35675dd97e51423e3e'; // matheganzeinfach.com
+const TOKEN = tokenMatch[1].trim();
+const ZONE = '60fa35d16670df35675dd97e51423e3e';
 
 async function api(path, method = 'GET', body) {
   const res = await fetch(`https://api.cloudflare.com/client/v4${path}`, {

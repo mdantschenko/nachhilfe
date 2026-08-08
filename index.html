@@ -58,13 +58,10 @@
   }
   </script>
 
-  <!-- INLINE-CSS:START — Inline-Kopie von fonts.css + styles.css, damit kein Request das
-       erste Rendern blockiert. Nach CSS-Änderungen: `node tools/sync-css.mjs` ausführen. -->
+  <!-- INLINE-CSS:START -->
   <style>
 /* Selbst gehostete Schriften (DSGVO) — keine Anfragen an Google.
-   Newsreader (Headlines) + Hanken Grotesk (Fließtext). Subsets: latin, latin-ext.
-   index.html trägt eine Inline-Kopie dieser Datei — nach
-   Änderungen `node tools/sync-css.mjs` ausführen. */
+   Newsreader (Headlines) + Hanken Grotesk (Fließtext). Subsets: latin, latin-ext. */
 
 @font-face {
   font-family: 'Hanken Grotesk';
@@ -133,22 +130,6 @@
 @font-face {
   font-family: 'Newsreader';
   font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('fonts/newsreader-400-italic-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Newsreader';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('fonts/newsreader-400-italic-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Newsreader';
-  font-style: italic;
   font-weight: 500;
   font-display: swap;
   src: url('fonts/newsreader-500-italic-latin-ext.woff2') format('woff2');
@@ -194,29 +175,11 @@
   src: url('fonts/newsreader-500-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-@font-face {
-  font-family: 'Newsreader';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('fonts/newsreader-600-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Newsreader';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('fonts/newsreader-600-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
   </style>
   <style>
 /* ============================================================
    MatheGanzEinfach — editorial redesign
    Two directions via [data-theme]: "hell" (default) & "dunkel"
-   index.html trägt eine Inline-Kopie dieser Datei — nach
-   Änderungen `node tools/sync-css.mjs` ausführen.
    ============================================================ */
 
 /* ---------- Tokens ---------- */
@@ -615,7 +578,7 @@ html[data-theme="dunkel"] .portrait::before { opacity: .26; }
   text-decoration: none;
 }
 .gchip .g-logo { width: 22px; height: 22px; flex: none; }
-.gchip .g-score { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--ink); line-height: 1; }
+.gchip .g-score { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--ink); line-height: 1; }
 .gchip .stars { display: flex; gap: 1px; color: var(--star); margin-top: 3px; }
 .gchip .stars svg { width: 12px; height: 12px; }
 .gchip .g-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--faint); text-transform: uppercase; margin-top: 4px; }
@@ -663,6 +626,7 @@ html[data-theme="dunkel"] .portrait::before { opacity: .26; }
   margin-top: 22px;
   font-family: var(--font-display);
   font-style: italic;
+  font-weight: 500;
   font-size: 20px;
   color: var(--ink);
 }
@@ -711,7 +675,7 @@ html[data-theme="dunkel"] .step {
 .step-num {
   font-family: var(--font-display);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--accent);
   letter-spacing: .1em;
 }
@@ -973,8 +937,6 @@ html[data-theme="dunkel"] .footer { background: #0a0f15; }
 .footer-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 32px; }
 .footer .brand { color: var(--paper); }
 html[data-theme="hell"] .footer .brand, :root .footer .brand { color: #fff; }
-/* Feste Farben: Der Footer ist in beiden Themes dunkel — var(--accent) wäre
-   im hellen Theme zu dunkel für WCAG-Kontrast auf dem dunklen Grund. */
 .footer .brand span { color: #8aa6f5; }
 .footer-blurb { font-size: 15px; margin-top: 16px; max-width: 36ch; line-height: 1.6; color: color-mix(in srgb, var(--paper) 58%, var(--ink)); }
 .footer h3 { font-family: var(--font-body); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: color-mix(in srgb, var(--paper) 50%, var(--ink)); font-weight: 700; }
@@ -1441,7 +1403,159 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <!-- INLINE-JS:START -->
+  <script>
+/* ============================================================
+   MatheGanzEinfach — interaction logic
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var WA_NUMBER = "4917661516445";
+  var EMAIL = "info@matheganzeinfach.com";
+
+  /* ============================================================
+     THEME — system default + manual toggle (persisted)
+     Initial theme is set pre-paint by the inline <head> script.
+     Accent colour follows the theme automatically (CSS handles it).
+     ============================================================ */
+  var THEME_KEY = "mge-theme";
+  function setTheme(theme, persist) {
+    document.documentElement.setAttribute("data-theme", theme);
+    if (persist) { try { localStorage.setItem(THEME_KEY, theme); } catch (e) {} }
+  }
+  window.toggleTheme = function () {
+    var next = document.documentElement.getAttribute("data-theme") === "dunkel" ? "hell" : "dunkel";
+    setTheme(next, true);
+  };
+  // Follow the OS setting live — but only while the visitor hasn't made a manual choice.
+  try {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+      var saved = null;
+      try { saved = localStorage.getItem(THEME_KEY); } catch (_) {}
+      if (!saved) setTheme(e.matches ? "dunkel" : "hell", false);
+    });
+  } catch (e) {}
+
+  /* ============================================================
+     NAV scroll state
+     ============================================================ */
+  var nav = document.querySelector(".nav");
+  var navScrolled = null;
+  function onScroll() {
+    if (!nav) return;
+    var scrolled = window.scrollY > 12;
+    if (scrolled === navScrolled) return;
+    navScrolled = scrolled;
+    nav.classList.toggle("scrolled", scrolled);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---- mobile menu ---- */
+  window.toggleMenu = function (btn) {
+    if (!nav) return;
+    var open = nav.classList.toggle("open");
+    if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+  };
+  window.closeMenu = function () {
+    if (!nav) return;
+    nav.classList.remove("open");
+    var btn = nav.querySelector(".menu-toggle");
+    if (btn) btn.setAttribute("aria-expanded", "false");
+  };
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") window.closeMenu();
+  });
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 760) window.closeMenu();
+  });
+
+  /* ============================================================
+     EMAIL MODAL (mit Fokus-Trap)
+     ============================================================ */
+  var modal = document.getElementById("emailModal");
+  var lastFocus = null;
+  window.openEmailModal = function () {
+    if (!modal) return;
+    lastFocus = document.activeElement;
+    modal.classList.add("open");
+    var first = modal.querySelector(".modal-close");
+    if (first) first.focus();
+  };
+  window.closeEmailModal = function () {
+    if (!modal) return;
+    modal.classList.remove("open");
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
+  };
+  if (modal) {
+    modal.addEventListener("click", function (e) { if (e.target === modal) window.closeEmailModal(); });
+    document.addEventListener("keydown", function (e) {
+      if (!modal.classList.contains("open")) return;
+      if (e.key === "Escape") { window.closeEmailModal(); return; }
+      if (e.key === "Tab") {
+        var focusables = modal.querySelectorAll("button, a[href]");
+        if (!focusables.length) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
+
+  /* ============================================================
+     BOOKING — build a prefilled WhatsApp / E-Mail request
+     ============================================================ */
+  var booking = { tag: [], zeit: [] };
+  function bindChips(group, key, multi) {
+    var wrap = document.querySelector('[data-chips="' + group + '"]');
+    if (!wrap) return;
+    wrap.addEventListener("click", function (e) {
+      var btn = e.target.closest(".chip");
+      if (!btn) return;
+      var was = btn.getAttribute("aria-pressed") === "true";
+      if (multi) {
+        btn.setAttribute("aria-pressed", was ? "false" : "true");
+        var vals = [];
+        wrap.querySelectorAll('.chip[aria-pressed="true"]').forEach(function (c) { vals.push(c.dataset.value); });
+        booking[key] = vals;
+      } else {
+        wrap.querySelectorAll(".chip").forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+        btn.setAttribute("aria-pressed", was ? "false" : "true");
+        booking[key] = was ? "" : btn.dataset.value;
+      }
+    });
+  }
+  bindChips("tag", "tag", true);
+  bindChips("zeit", "zeit", true);
+
+  function buildMessage() {
+    var klasse = (document.getElementById("booking-klasse") || {}).value || "";
+    var note = (document.getElementById("booking-note") || {}).value || "";
+    var lines = ["Hallo Michael, ich möchte gern eine Mathe-Nachhilfe vereinbaren."];
+    var detail = [];
+    if (klasse.trim()) detail.push("Klassenstufe: " + klasse.trim());
+    if (booking.tag.length) detail.push("Wunschtage: " + booking.tag.join(", "));
+    if (booking.zeit.length) detail.push("Uhrzeit: " + booking.zeit.join(", "));
+    if (detail.length) lines.push("", detail.join("\n"));
+    if (note.trim()) lines.push("", note.trim());
+    return lines.join("\n");
+  }
+
+  window.bookViaWhatsApp = function () {
+    var url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(buildMessage());
+    window.open(url, "_blank", "noopener");
+  };
+  window.bookViaEmail = function () {
+    var url = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Terminanfrage Mathe-Nachhilfe") +
+      "&body=" + encodeURIComponent(buildMessage());
+    window.location.href = url;
+  };
+})();
+  </script>
+  <!-- INLINE-JS:END -->
 
 </body>
 </html>
