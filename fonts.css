@@ -1,5 +1,7 @@
 /* Selbst gehostete Schriften (DSGVO) — keine Anfragen an Google.
-   Newsreader (Headlines) + Hanken Grotesk (Fließtext). Subsets: latin, latin-ext. */
+   Newsreader (Headlines) + Hanken Grotesk (Fließtext). Subsets: latin, latin-ext.
+   index.html trägt eine Inline-Kopie dieser Datei — nach
+   Änderungen `node tools/sync-css.mjs` ausführen. */
 
 @font-face {
   font-family: 'Hanken Grotesk';

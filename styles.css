@@ -1,6 +1,8 @@
 /* ============================================================
    MatheGanzEinfach — editorial redesign
    Two directions via [data-theme]: "hell" (default) & "dunkel"
+   index.html trägt eine Inline-Kopie dieser Datei — nach
+   Änderungen `node tools/sync-css.mjs` ausführen.
    ============================================================ */
 
 /* ---------- Tokens ---------- */
@@ -74,6 +76,7 @@ body {
   transition: background-color .35s ease, color .35s ease;
 }
 img { display: block; max-width: 100%; }
+picture { display: contents; }
 /* Harness-proof painted background (preview hosts force body transparent) */
 body::before {
   content: "";

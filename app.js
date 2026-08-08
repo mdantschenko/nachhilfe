@@ -34,9 +34,13 @@
      NAV scroll state
      ============================================================ */
   var nav = document.querySelector(".nav");
+  var navScrolled = null;
   function onScroll() {
     if (!nav) return;
-    nav.classList.toggle("scrolled", window.scrollY > 12);
+    var scrolled = window.scrollY > 12;
+    if (scrolled === navScrolled) return;
+    navScrolled = scrolled;
+    nav.classList.toggle("scrolled", scrolled);
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
