@@ -1813,7 +1813,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       }
 
       function currentMaxIter() {
-        var auto = Math.round(120 + 80 * Math.log2(Math.max(1, currentZoom())));
+        var auto = Math.round(120 + 450 * Math.log2(Math.max(1, currentZoom())));
         return Math.min(ITER_MAX, Math.max(auto, iterFloor));
       }
 
