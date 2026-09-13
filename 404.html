@@ -2480,23 +2480,6 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         formulaToggle.setAttribute("aria-expanded", String(!expanded));
       });
 
-      var closeResetPopover = setupPopover(resetBtn, resetPopover);
-      resetCancelBtn.addEventListener("click", closeResetPopover);
-      resetConfirmBtn.addEventListener("click", function () {
-        resetView();
-        closeResetPopover();
-      });
-      gridToggle.addEventListener("click", function () {
-        showGrid = !showGrid;
-        gridToggle.setAttribute("aria-pressed", String(showGrid));
-        drawOverlay();
-      });
-      orbitToggle.addEventListener("click", function () {
-        showOrbit = !showOrbit;
-        orbitToggle.setAttribute("aria-pressed", String(showOrbit));
-        updateOrbitPanel();
-      });
-
       function setupPopover(button, popover, opts) {
         opts = opts || {};
         var autoClose = opts.autoClose !== false;
@@ -2532,6 +2515,23 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       setupPopover(zoomBtn, zoomPopover, { autoClose: false });
       setupPopover(iterBtn, iterPopover, { autoClose: false });
       setupPopover(cBtn, cPopover, { autoClose: false });
+      var closeResetPopover = setupPopover(resetBtn, resetPopover);
+      resetCancelBtn.addEventListener("click", closeResetPopover);
+      resetConfirmBtn.addEventListener("click", function () {
+        resetView();
+        closeResetPopover();
+      });
+
+      gridToggle.addEventListener("click", function () {
+        showGrid = !showGrid;
+        gridToggle.setAttribute("aria-pressed", String(showGrid));
+        drawOverlay();
+      });
+      orbitToggle.addEventListener("click", function () {
+        showOrbit = !showOrbit;
+        orbitToggle.setAttribute("aria-pressed", String(showOrbit));
+        updateOrbitPanel();
+      });
 
       function unpin() {
         pinned = null;
