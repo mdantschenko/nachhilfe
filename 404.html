@@ -1103,7 +1103,8 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     .lab-reset { margin-left: auto; }
     .lab-stage { position: relative; background: #040a1c; }
     .lab-stage canvas { display: block; width: 100%; aspect-ratio: 16 / 9; }
-    #fractal { touch-action: none; cursor: crosshair; user-select: none; -webkit-user-select: none; outline: none; }
+    #fractal { touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; outline: none; }
+    #fractal:active { cursor: grabbing; }
     #fractal:focus-visible { box-shadow: inset 0 0 0 3px var(--accent); }
     #overlay { position: absolute; inset: 0; height: 100%; pointer-events: none; }
     .fractal-note {
@@ -1134,24 +1135,11 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     .fractal-hint { margin-top: 14px; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
     .lab-bar-secondary { border-bottom: none; }
-    .lab-settings:not([hidden]) {
-      position: fixed; inset: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: center; padding: 20px;
+    .lab-settings-popover:not([hidden]) {
+      display: block; width: min(360px, 90vw); max-height: 80vh; overflow-y: auto; padding: 0;
     }
-    .lab-settings-backdrop { display: block; position: absolute; inset: 0; background: rgba(10, 14, 20, .55); }
-    .lab-settings-panel {
-      position: relative; background: var(--paper); border-radius: 16px;
-      width: 100%; max-width: 620px; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lift);
-    }
-    .lab-settings-head {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 16px; border-bottom: 1px solid var(--line);
-      font-weight: 700; color: var(--ink); position: sticky; top: 0; background: var(--paper);
-    }
-    .lab-advanced-close {
-      width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line-strong);
-      background: transparent; color: var(--ink-2); display: flex; align-items: center; justify-content: center;
-    }
+    .lab-settings-popover .lab-bar { border-radius: 10px 10px 0 0; }
+    .lab-settings-popover .lab-bar-secondary { border-radius: 0 0 10px 10px; }
     .status-icons { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; }
     .info-btn {
       width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-strong);
@@ -1286,31 +1274,6 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       <p class="lab-invite">Spielen Sie mit den Einstellungen, zoomen Sie sich fest und speichern Sie coole Funde als Lieblingsort :-)</p>
 
       <section class="lab" aria-label="Mandelbrot-Labor">
-        <div class="lab-settings" id="lab-settings">
-          <div class="lab-settings-backdrop" id="lab-settings-backdrop"></div>
-          <div class="lab-settings-panel">
-            <div class="lab-settings-head">
-              <span>Einstellungen</span>
-              <button type="button" class="lab-advanced-close" id="lab-settings-close" aria-label="Schließen">✕</button>
-            </div>
-            <div class="lab-bar">
-              <button type="button" class="lab-btn" id="grid-toggle" aria-pressed="false"><span class="box" aria-hidden="true"></span>Koordinaten</button>
-              <button type="button" class="lab-select" id="place-select-btn" aria-expanded="false" aria-controls="place-menu">Bekannte Orte …</button>
-              <button type="button" class="lab-btn" id="add-favorite-btn" aria-expanded="false">☆ Merken</button>
-              <button type="button" class="lab-select" id="palette-select-btn" aria-expanded="false" aria-controls="palette-menu">Farben: <span id="palette-select-label"></span></button>
-              <button type="button" class="lab-btn lab-reset" id="fractal-reset">Zurücksetzen</button>
-            </div>
-            <div class="lab-bar lab-bar-secondary">
-              <div class="custom-colors" id="custom-colors">
-                <span>Eigene Farben:</span>
-                <input type="color" id="custom-c1" value="#050a1c" aria-label="Eigene Farbe 1">
-                <input type="color" id="custom-c2" value="#1c44c4" aria-label="Eigene Farbe 2">
-                <input type="color" id="custom-c3" value="#ffcc4d" aria-label="Eigene Farbe 3">
-                <input type="color" id="custom-c4" value="#ffffff" aria-label="Eigene Farbe 4">
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="lab-stage">
           <canvas id="fractal" tabindex="0" aria-label="Interaktive Mandelbrot-Menge. Mit Plus und Minus zoomen, mit den Pfeiltasten verschieben, mit R zurücksetzen."></canvas>
           <canvas id="overlay" aria-hidden="true"></canvas>
@@ -1348,6 +1311,25 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           </div>
         </div>
       </section>
+      <div class="info-popover lab-settings-popover" id="lab-settings" hidden>
+        <div class="lab-bar">
+          <button type="button" class="lab-btn" id="grid-toggle" aria-pressed="false"><span class="box" aria-hidden="true"></span>Koordinaten</button>
+          <button type="button" class="lab-btn" id="orbit-toggle" aria-pressed="false"><span class="box" aria-hidden="true"></span>Folgen anzeigen</button>
+          <button type="button" class="lab-select" id="place-select-btn" aria-expanded="false" aria-controls="place-menu">Bekannte Orte …</button>
+          <button type="button" class="lab-btn" id="add-favorite-btn" aria-expanded="false">☆ Merken</button>
+          <button type="button" class="lab-select" id="palette-select-btn" aria-expanded="false" aria-controls="palette-menu">Farben: <span id="palette-select-label"></span></button>
+          <button type="button" class="lab-btn lab-reset" id="fractal-reset">Zurücksetzen</button>
+        </div>
+        <div class="lab-bar lab-bar-secondary">
+          <div class="custom-colors" id="custom-colors">
+            <span>Eigene Farben:</span>
+            <input type="color" id="custom-c1" value="#050a1c" aria-label="Eigene Farbe 1">
+            <input type="color" id="custom-c2" value="#1c44c4" aria-label="Eigene Farbe 2">
+            <input type="color" id="custom-c3" value="#ffcc4d" aria-label="Eigene Farbe 3">
+            <input type="color" id="custom-c4" value="#ffffff" aria-label="Eigene Farbe 4">
+          </div>
+        </div>
+      </div>
       <div class="info-popover" id="info-popover" hidden>
         <ul class="info-list">
           <li><b>Eigene Farben</b> — vier frei wählbare Farben für den Verlauf außerhalb der Menge.</li>
@@ -1675,12 +1657,11 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       var downloadPopover = document.getElementById("download-popover");
       var settingsTrigger = document.getElementById("settings-trigger");
       var labSettings = document.getElementById("lab-settings");
-      var labSettingsBackdrop = document.getElementById("lab-settings-backdrop");
-      var labSettingsClose = document.getElementById("lab-settings-close");
       var infoBtn = document.getElementById("info-btn");
       var infoPopover = document.getElementById("info-popover");
       var hint = document.getElementById("fractal-hint");
       var gridToggle = document.getElementById("grid-toggle");
+      var orbitToggle = document.getElementById("orbit-toggle");
       var placeSelectBtn = document.getElementById("place-select-btn");
       var placeMenu = document.getElementById("place-menu");
       var addFavoriteBtn = document.getElementById("add-favorite-btn");
@@ -1713,6 +1694,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       var renderTimer = null;
       var lut = buildPalette(PALETTES[0].stops, 1024);
       var showGrid = false;
+      var showOrbit = false;
       var showVectorsOnMain = true;
       var hover = null, pinned = null;
       var applyingPlace = false;
@@ -2162,12 +2144,12 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         if (showGrid) drawGrid();
         if (hover) {
           var hc = pointToDouble(pointAt(hover.px, hover.py));
-          if (showVectorsOnMain) drawOrbitOnMain(hc, "#ffffff", pinned ? 0.55 : 1, orbitOf(hc, currentMaxIter()));
+          if (showOrbit && showVectorsOnMain) drawOrbitOnMain(hc, "#ffffff", pinned ? 0.55 : 1, orbitOf(hc, currentMaxIter()));
           drawMarkerOrEdge(hc, "#ffffff", pinned ? 0.6 : 1);
         }
         if (pinned) {
           var pc = pointToDouble(pinned);
-          if (showVectorsOnMain) drawOrbitOnMain(pc, "#ffcc4d", 1, orbitOf(pc, currentMaxIter()));
+          if (showOrbit && showVectorsOnMain) drawOrbitOnMain(pc, "#ffcc4d", 1, orbitOf(pc, currentMaxIter()));
           drawMarkerOrEdge(pc, "#ffcc4d", 1);
         }
       }
@@ -2207,8 +2189,8 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         var point = pinned || (hover ? pointAt(hover.px, hover.py) : null);
         orbitClear.hidden = !pinned;
         pinBtn.hidden = !hover || !!pinned;
-        orbitPanel.hidden = !point;
-        if (!point) {
+        orbitPanel.hidden = !point || !showOrbit;
+        if (!point || !showOrbit) {
           orbitSeq.textContent = "";
           orbitVerdict.textContent = "";
           orbitVerdict.className = "orbit-verdict";
@@ -2243,12 +2225,12 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       }
 
       function zoomAt(px, py, factor) {
-        pinPoint(pointAt(px, py), px, py, clampScale(view.scale / factor));
+        pinPoint(anchorPointAt(px, py), px, py, clampScale(view.scale / factor));
       }
 
       function animateZoom(px, py, factor) {
         takeSnapshot();
-        var point = pointAt(px, py);
+        var point = anchorPointAt(px, py);
         var startScale = view.scale, endScale = clampScale(startScale / factor);
         var start = performance.now(), duration = 380;
         function frame(now) {
@@ -2302,6 +2284,14 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         return pinned ? toScreen(pointToDouble(pinned)) : null;
       }
 
+      function anchorPointAt(px, py) {
+        if (pinned) {
+          var marker = pinnedScreenPos();
+          if (Math.hypot(px - marker.x, py - marker.y) <= 26 * devicePixelsPerCss()) return pinned;
+        }
+        return pointAt(px, py);
+      }
+
       function startGesture() {
         var points = Array.from(pointers.values());
         takeSnapshot();
@@ -2320,38 +2310,31 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         canvas.focus({ preventScroll: true });
         canvas.setPointerCapture(e.pointerId);
         var p = toCanvasPixel(e);
+        var startDragPinned = false;
         if (pointers.size === 0 && pinned) {
           var marker = pinnedScreenPos();
-          if (Math.hypot(p.x - marker.x, p.y - marker.y) <= 26 * devicePixelsPerCss()) {
-            clearTimeout(longPressTimer);
-            draggingPinned = true;
-            pointers.set(e.pointerId, { x: p.x, y: p.y, zoomOut: false });
-            return;
-          }
+          startDragPinned = Math.hypot(p.x - marker.x, p.y - marker.y) <= 26 * devicePixelsPerCss();
         }
         pointers.set(e.pointerId, { x: p.x, y: p.y, zoomOut: e.button === 2 || e.shiftKey });
         if (pointers.size <= 2) startGesture();
         if (pointers.size === 1) {
           longPressFired = false;
           clearTimeout(longPressTimer);
-          longPressTimer = setTimeout(function () {
-            if (pointers.size === 1 && gesture && gesture.moved < 6 * devicePixelsPerCss()) {
-              longPressFired = true;
-              pinAt(p.x, p.y);
-            }
-          }, 480);
+          if (startDragPinned) {
+            draggingPinned = true;
+          } else {
+            longPressTimer = setTimeout(function () {
+              if (pointers.size === 1 && gesture && gesture.moved < 6 * devicePixelsPerCss()) {
+                longPressFired = true;
+                pinAt(p.x, p.y);
+              }
+            }, 480);
+          }
         }
       });
 
       canvas.addEventListener("pointermove", function (e) {
         var p = toCanvasPixel(e);
-        if (draggingPinned && pointers.has(e.pointerId)) {
-          pinned = pointAt(p.x, p.y);
-          drawOverlay();
-          updateOrbitPanel();
-          updateHud();
-          return;
-        }
         if (!pointers.has(e.pointerId) || !gesture) {
           if (pointers.size === 0) {
             hover = { px: p.x, py: p.y };
@@ -2364,6 +2347,15 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         var entry = pointers.get(e.pointerId);
         entry.x = p.x; entry.y = p.y;
         var points = Array.from(pointers.values());
+        if (draggingPinned && points.length === 1) {
+          gesture.moved += Math.hypot(p.x - gesture.points[0].x, p.y - gesture.points[0].y);
+          gesture.points[0] = { x: p.x, y: p.y };
+          pinned = pointAt(p.x, p.y);
+          drawOverlay();
+          updateOrbitPanel();
+          updateHud();
+          return;
+        }
         if (points.length === 2 && gesture.points.length === 2) {
           var distance = Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
           var scale = clampScale(gesture.scale * gesture.distance / Math.max(1, distance));
@@ -2391,11 +2383,16 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         clearTimeout(longPressTimer);
         var entry = pointers.get(e.pointerId);
         pointers.delete(e.pointerId);
+        var tap = !pinched && !longPressFired && gesture && gesture.moved < 6 * devicePixelsPerCss();
         if (draggingPinned) {
           draggingPinned = false;
+          if (pointers.size === 0) {
+            gesture = null;
+            pinched = false;
+            if (tap) animateZoom(entry.x, entry.y, entry.zoomOut ? 1 / 2.5 : 2.5);
+          }
           return;
         }
-        var tap = !pinched && !longPressFired && gesture && gesture.moved < 6 * devicePixelsPerCss();
         if (pointers.size === 0) {
           gesture = null;
           pinched = false;
@@ -2470,14 +2467,11 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         gridToggle.setAttribute("aria-pressed", String(showGrid));
         drawOverlay();
       });
-      function setSettingsOpen(open) {
-        labSettings.hidden = !open;
-        settingsTrigger.setAttribute("aria-expanded", String(open));
-      }
-      settingsTrigger.addEventListener("click", function () { setSettingsOpen(labSettings.hidden); });
-      labSettingsBackdrop.addEventListener("click", function () { setSettingsOpen(false); });
-      labSettingsClose.addEventListener("click", function () { setSettingsOpen(false); });
-      setSettingsOpen(false);
+      orbitToggle.addEventListener("click", function () {
+        showOrbit = !showOrbit;
+        orbitToggle.setAttribute("aria-pressed", String(showOrbit));
+        updateOrbitPanel();
+      });
 
       function setupPopover(button, popover, opts) {
         opts = opts || {};
@@ -2509,6 +2503,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         return close;
       }
       setupPopover(infoBtn, infoPopover);
+      setupPopover(settingsTrigger, labSettings);
       var closeDownloadPopover = setupPopover(downloadBtn, downloadPopover);
       setupPopover(zoomBtn, zoomPopover, { autoClose: false });
       setupPopover(iterBtn, iterPopover, { autoClose: false });
