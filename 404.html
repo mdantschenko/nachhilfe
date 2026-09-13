@@ -1055,7 +1055,18 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     }
     .lost-formula .formula sub { font-size: .5em; vertical-align: -.2em; font-style: normal; }
     .lost-formula .formula sup { font-size: .55em; vertical-align: .55em; font-style: normal; }
+    .lost-formula .formula-label { font-family: var(--font-body); font-style: normal; font-size: 15px; font-weight: 600; color: var(--muted); margin-right: 4px; }
     .lost-formula p { color: var(--ink-2); font-size: 15px; line-height: 1.65; }
+    .lost-formula p + p { margin-top: 12px; }
+    .formula-toggle {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%;
+      background: none; border: none; padding: 0; margin: 0 0 16px; font: inherit; font-size: 16px; font-weight: 600;
+      color: var(--ink); cursor: pointer; text-align: left;
+    }
+    .formula-toggle-icon { transition: transform .2s ease; color: var(--muted); }
+    .formula-toggle[aria-expanded="false"] { margin-bottom: 0; }
+    .formula-toggle[aria-expanded="false"] .formula-toggle-icon { transform: rotate(-90deg); }
+    .formula-toggle[aria-expanded="false"] + .formula-body { display: none; }
     .lab-invite { margin-top: 24px; color: var(--muted); font-size: 15px; line-height: 1.6; text-align: center; }
 
     .lab { margin-top: 44px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--paper); box-shadow: var(--shadow); }
@@ -1171,6 +1182,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     .edit-popover .edit-hint { font-weight: 500; color: var(--faint); }
     .place-menu:not([hidden]) {
       display: block; width: 260px; max-height: 340px; overflow-y: auto; padding: 8px;
+      -webkit-overflow-scrolling: touch; overscroll-behavior: contain; touch-action: pan-y;
     }
     .place-menu-label {
       font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--faint);
@@ -1179,6 +1191,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     .place-menu-item {
       display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
       border: 0; background: none; border-radius: 8px; padding: 8px; font: inherit; font-size: 13.5px; color: var(--ink-2);
+      user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
     }
     .place-menu-item:hover, .place-menu-item:focus-visible { background: var(--accent-tint); color: var(--ink); }
     .place-menu-item .place-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1270,13 +1283,19 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           </div>
         </div>
         <aside class="lost-formula">
-          <div class="formula">z<sub>n+1</sub> = z<sub>n</sub><sup>2</sup> + c</div>
-          <p>Man wählt einen Punkt c, startet bei z<sub>0</sub> = 0 und wendet die Formel immer wieder an. Bleibt das Ergebnis für immer klein, gehört c zur Menge und ist schwarz. Läuft es davon, zeigt die Farbe, wie schnell.</p>
-          <p>|z| ist der Abstand des Punkts z vom Nullpunkt, wie eine ganz normale Länge. Sobald |z| größer als 2 wird, steht fest: z wächst von da an immer weiter und kann nicht mehr zurückkehren. Deshalb reicht |z| &gt; 2, um „ins Unendliche" zu erkennen.</p>
+          <button type="button" class="formula-toggle" id="formula-toggle" aria-expanded="true" aria-controls="formula-body">
+            <span>Wie entsteht das Mandelbrotfraktal?</span>
+            <span class="formula-toggle-icon" aria-hidden="true">▾</span>
+          </button>
+          <div class="formula-body" id="formula-body">
+            <div class="formula"><span class="formula-label">Formel:</span> z<sub>n+1</sub> = z<sub>n</sub><sup>2</sup> + c</div>
+            <p>Diese Fläche heißt Mandelbrot-Menge, ihr fein gezackter Rand ist das Mandelbrotfraktal. Man wählt einen Punkt c, startet bei z<sub>0</sub> = 0 und wendet die Formel immer wieder an. Bleibt das Ergebnis für immer klein, gehört c zur Menge und ist schwarz. Läuft es davon, zeigt die Farbe, wie schnell.</p>
+            <p>|z| ist der Abstand des Punkts z vom Nullpunkt, wie eine ganz normale Länge. Sobald |z| größer als 2 wird, steht fest: z wächst von da an immer weiter und kann nicht mehr zurückkehren. Deshalb reicht |z| &gt; 2, um „ins Unendliche" zu erkennen.</p>
+          </div>
         </aside>
       </div>
 
-      <p class="lab-invite">Spielen Sie ruhig mit den Einstellungen — vor allem mit der Anzahl der Iterationen — zoomen Sie sich fest und speichern Sie coole Fundstücke als Lieblingsort :-)</p>
+      <p class="lab-invite">Spielen Sie mit den Einstellungen, zoomen Sie sich fest und speichern Sie coole Funde als Lieblingsort :-)</p>
 
       <section class="lab" aria-label="Mandelbrot-Labor">
         <div class="lab-settings" id="lab-settings">
@@ -1290,7 +1309,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
               <button type="button" class="lab-btn" id="grid-toggle" aria-pressed="false"><span class="box" aria-hidden="true"></span>Koordinaten</button>
               <button type="button" class="lab-select" id="place-select-btn" aria-expanded="false" aria-controls="place-menu">Bekannte Orte …</button>
               <button type="button" class="lab-btn" id="add-favorite-btn" aria-expanded="false">☆ Merken</button>
-              <select class="lab-select" id="palette-select" aria-label="Farben"></select>
+              <button type="button" class="lab-select" id="palette-select-btn" aria-expanded="false" aria-controls="palette-menu">Farben: <span id="palette-select-label"></span></button>
               <button type="button" class="lab-btn lab-reset" id="fractal-reset">Zurücksetzen</button>
             </div>
             <div class="lab-bar lab-bar-secondary">
@@ -1372,6 +1391,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         <button type="button" class="lab-btn" id="c-apply">Übernehmen</button>
       </div>
       <div class="info-popover place-menu" id="place-menu" hidden></div>
+      <div class="info-popover place-menu" id="palette-menu" hidden></div>
       <div class="info-popover place-preview" id="place-preview" hidden>
         <canvas width="180" height="112"></canvas>
         <div class="place-preview-name" id="place-preview-name"></div>
@@ -1682,7 +1702,9 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       var placePreview = document.getElementById("place-preview");
       var placePreviewCanvas = placePreview.querySelector("canvas");
       var placePreviewName = document.getElementById("place-preview-name");
-      var paletteSelect = document.getElementById("palette-select");
+      var paletteSelectBtn = document.getElementById("palette-select-btn");
+      var paletteSelectLabel = document.getElementById("palette-select-label");
+      var paletteMenu = document.getElementById("palette-menu");
 
       var HOME_SPAN = 3.1;
       var MIN_SCALE = 1e-290;
@@ -2279,12 +2301,17 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       var pinched = false;
       var longPressTimer = null;
       var longPressFired = false;
+      var draggingPinned = false;
 
       function pinAt(px, py) {
         pinned = pointAt(px, py);
         drawOverlay();
         updateOrbitPanel();
         updateHud();
+      }
+
+      function pinnedScreenPos() {
+        return pinned ? toScreen(pointToDouble(pinned)) : null;
       }
 
       function startGesture() {
@@ -2305,6 +2332,15 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         canvas.focus({ preventScroll: true });
         canvas.setPointerCapture(e.pointerId);
         var p = toCanvasPixel(e);
+        if (pointers.size === 0 && pinned) {
+          var marker = pinnedScreenPos();
+          if (Math.hypot(p.x - marker.x, p.y - marker.y) <= 26 * devicePixelsPerCss()) {
+            clearTimeout(longPressTimer);
+            draggingPinned = true;
+            pointers.set(e.pointerId, { x: p.x, y: p.y, zoomOut: false });
+            return;
+          }
+        }
         pointers.set(e.pointerId, { x: p.x, y: p.y, zoomOut: e.button === 2 || e.shiftKey });
         if (pointers.size <= 2) startGesture();
         if (pointers.size === 1) {
@@ -2321,6 +2357,13 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
 
       canvas.addEventListener("pointermove", function (e) {
         var p = toCanvasPixel(e);
+        if (draggingPinned && pointers.has(e.pointerId)) {
+          pinned = pointAt(p.x, p.y);
+          drawOverlay();
+          updateOrbitPanel();
+          updateHud();
+          return;
+        }
         if (!pointers.has(e.pointerId) || !gesture) {
           if (pointers.size === 0) {
             hover = { px: p.x, py: p.y };
@@ -2360,6 +2403,10 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         clearTimeout(longPressTimer);
         var entry = pointers.get(e.pointerId);
         pointers.delete(e.pointerId);
+        if (draggingPinned) {
+          draggingPinned = false;
+          return;
+        }
         var tap = !pinched && !longPressFired && gesture && gesture.moved < 6 * devicePixelsPerCss();
         if (pointers.size === 0) {
           gesture = null;
@@ -2423,6 +2470,12 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         e.preventDefault();
       });
 
+      var formulaToggle = document.getElementById("formula-toggle");
+      formulaToggle.addEventListener("click", function () {
+        var expanded = formulaToggle.getAttribute("aria-expanded") === "true";
+        formulaToggle.setAttribute("aria-expanded", String(!expanded));
+      });
+
       document.getElementById("fractal-reset").addEventListener("click", resetView);
       gridToggle.addEventListener("click", function () {
         showGrid = !showGrid;
@@ -2438,7 +2491,9 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       labSettingsClose.addEventListener("click", function () { setSettingsOpen(false); });
       setSettingsOpen(false);
 
-      function setupPopover(button, popover) {
+      function setupPopover(button, popover, opts) {
+        opts = opts || {};
+        var autoClose = opts.autoClose !== false;
         function position() {
           var rect = button.getBoundingClientRect();
           var popRect = popover.getBoundingClientRect();
@@ -2459,15 +2514,17 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         document.addEventListener("click", function (e) {
           if (!popover.hidden && e.target !== button && !popover.contains(e.target)) close();
         });
-        window.addEventListener("scroll", function () { if (!popover.hidden) close(); }, true);
-        window.addEventListener("resize", function () { if (!popover.hidden) close(); });
+        if (autoClose) {
+          window.addEventListener("scroll", function (e) { if (!popover.hidden && !popover.contains(e.target)) close(); }, true);
+          window.addEventListener("resize", function () { if (!popover.hidden) close(); });
+        }
         return close;
       }
       setupPopover(infoBtn, infoPopover);
       var closeDownloadPopover = setupPopover(downloadBtn, downloadPopover);
-      setupPopover(zoomBtn, zoomPopover);
-      setupPopover(iterBtn, iterPopover);
-      setupPopover(cBtn, cPopover);
+      setupPopover(zoomBtn, zoomPopover, { autoClose: false });
+      setupPopover(iterBtn, iterPopover, { autoClose: false });
+      setupPopover(cBtn, cPopover, { autoClose: false });
 
       orbitClear.addEventListener("click", function () {
         pinned = null;
@@ -2519,8 +2576,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           var palette = PALETTES.filter(function (p) { return p.id === place.paletteId; })[0];
           if (palette) {
             lut = buildPalette(palette.stops, 1024);
-            paletteSelect.value = palette.id;
-            activePaletteId = palette.id;
+            setActivePalette(palette);
             drawLowRes();
             render();
           }
@@ -2590,12 +2646,14 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       }
       function hidePreview() { placePreview.hidden = true; }
       placeMenu.addEventListener("mouseover", function (e) {
+        if (TOUCH) return;
         var item = e.target.closest(".place-menu-item");
         if (!item) return;
         clearTimeout(placePreviewTimer);
         placePreviewTimer = setTimeout(function () { showPreviewFor(item); }, 150);
       });
       placeMenu.addEventListener("mouseout", function (e) {
+        if (TOUCH) return;
         if (e.target.closest(".place-menu-item")) { clearTimeout(placePreviewTimer); hidePreview(); }
       });
       var placeLongPressTimer = null;
@@ -2608,7 +2666,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       placeMenu.addEventListener("touchmove", function () { clearTimeout(placeLongPressTimer); });
 
       var closePlaceMenu = setupPopover(placeSelectBtn, placeMenu);
-      var closeFavoritePopover = setupPopover(addFavoriteBtn, favoritePopover);
+      var closeFavoritePopover = setupPopover(addFavoriteBtn, favoritePopover, { autoClose: false });
       addFavoriteBtn.addEventListener("click", function () {
         if (!favoritePopover.hidden) { favoriteNameInput.value = ""; favoriteNameInput.focus(); }
       });
@@ -2632,15 +2690,26 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       });
       favoriteNameInput.addEventListener("keydown", function (e) { if (e.key === "Enter") favoriteSaveBtn.click(); });
 
-      PALETTES.forEach(function (palette) { paletteSelect.appendChild(new Option("Farben: " + palette.name, palette.id)); });
       var activePaletteId = PALETTES[0].id;
-      paletteSelect.addEventListener("change", function () {
-        var palette = PALETTES.filter(function (p) { return p.id === paletteSelect.value; })[0];
-        lut = buildPalette(palette.stops, 1024);
+      function setActivePalette(palette) {
         activePaletteId = palette.id;
+        paletteSelectLabel.textContent = palette.name;
+      }
+      setActivePalette(PALETTES[0]);
+      paletteMenu.innerHTML = PALETTES.map(function (palette, i) {
+        return '<button type="button" class="place-menu-item" data-idx="' + i + '"><span class="place-name">' + escapeHtml(palette.name) + "</span></button>";
+      }).join("");
+      paletteMenu.addEventListener("click", function (e) {
+        var item = e.target.closest(".place-menu-item");
+        if (!item) return;
+        var palette = PALETTES[Number(item.getAttribute("data-idx"))];
+        lut = buildPalette(palette.stops, 1024);
+        setActivePalette(palette);
         drawLowRes();
         render();
+        closePaletteMenu();
       });
+      var closePaletteMenu = setupPopover(paletteSelectBtn, paletteMenu);
 
       function hexToRgb(hex) {
         var v = parseInt(hex.slice(1), 16);
@@ -2909,10 +2978,10 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0") +
           "_" + String(d.getHours()).padStart(2, "0") + String(d.getMinutes()).padStart(2, "0") + String(d.getSeconds()).padStart(2, "0");
       }
-      function withExportBusy(fn) {
+      function withExportBusy(activeBtn, fn) {
         var labels = [downloadPngBtn.textContent, downloadPdfBtn.textContent];
         downloadPngBtn.disabled = true; downloadPdfBtn.disabled = true;
-        downloadPngBtn.textContent = "Wird erstellt …"; downloadPdfBtn.textContent = "Wird erstellt …";
+        activeBtn.textContent = "Wird erstellt …";
         renderExportCanvas().then(fn).then(function () {
           downloadPngBtn.disabled = false; downloadPdfBtn.disabled = false;
           downloadPngBtn.textContent = labels[0]; downloadPdfBtn.textContent = labels[1];
@@ -2920,7 +2989,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         });
       }
       downloadPngBtn.addEventListener("click", function () {
-        withExportBusy(function (exportCanvas) {
+        withExportBusy(downloadPngBtn, function (exportCanvas) {
           return new Promise(function (resolve) {
             exportCanvas.toBlob(function (blob) {
               if (!blob) { resolve(); return; }
@@ -2934,7 +3003,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         });
       });
       downloadPdfBtn.addEventListener("click", function () {
-        withExportBusy(function (exportCanvas) {
+        withExportBusy(downloadPdfBtn, function (exportCanvas) {
           return new Promise(function (resolve) {
             canvasToPdfBlob(exportCanvas, function (blob) {
               triggerDownload(blob, "mandelbrot-" + fileStamp() + ".pdf");
