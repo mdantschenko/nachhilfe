@@ -1042,6 +1042,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       opacity: .045; pointer-events: none; transition: opacity .4s ease;
     }
     html[data-theme="dunkel"] .bg-easter-egg { opacity: .09; }
+    .legal-main { padding-top: 48px; }
     .lost-wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
     .lost-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px 56px; align-items: center; }
     .lost-head h1 { font-size: clamp(36px, 4.6vw, 50px); font-weight: 500; margin-top: 18px; }
@@ -1222,7 +1223,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       .lost-intro { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
-      .legal-main { padding-top: 88px; }
+      .legal-main { padding-top: 32px; }
       .lost-lead { margin-top: 10px; }
       .lost-actions { margin-top: 16px; }
       .lost-formula { padding: 18px; margin-top: 4px; }
@@ -1253,19 +1254,6 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
 
   <div class="bg-easter-egg" id="bg-easter-egg" aria-hidden="true"></div>
 
-  <nav class="nav">
-    <div class="wrap nav-inner">
-      <a href="/" class="brand">Mathe<span>GanzEinfach</span></a>
-      <div class="nav-cta">
-        <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Zwischen Hell- und Dunkelmodus wechseln" title="Hell-/Dunkelmodus">
-          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
-          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
-        </button>
-        <a class="btn btn-primary" href="/#termin">Termin anfragen</a>
-      </div>
-    </div>
-  </nav>
-
   <main class="legal-main">
     <div class="lost-wrap">
       <div class="lost-intro">
@@ -1283,7 +1271,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           </div>
         </div>
         <aside class="lost-formula">
-          <button type="button" class="formula-toggle" id="formula-toggle" aria-expanded="true" aria-controls="formula-body">
+          <button type="button" class="formula-toggle" id="formula-toggle" aria-expanded="false" aria-controls="formula-body">
             <span>Wie entsteht das Mandelbrotfraktal?</span>
             <span class="formula-toggle-icon" aria-hidden="true">▾</span>
           </button>
@@ -1439,19 +1427,12 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
   <script>
     (function () {
       var KEY = "mge-theme";
-      window.toggleTheme = function () {
-        var next = document.documentElement.getAttribute("data-theme") === "dunkel" ? "hell" : "dunkel";
-        document.documentElement.setAttribute("data-theme", next);
-        try { localStorage.setItem(KEY, next); } catch (e) {}
-      };
       try {
         window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
           var saved = null; try { saved = localStorage.getItem(KEY); } catch (_) {}
           if (!saved) document.documentElement.setAttribute("data-theme", e.matches ? "dunkel" : "hell");
         });
       } catch (e) {}
-      var nav = document.querySelector(".nav");
-      window.addEventListener("scroll", function () { nav.classList.toggle("scrolled", window.scrollY > 12); }, { passive: true });
     })();
   </script>
 
@@ -1639,7 +1620,14 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       { name: "Kristallspitze (10⁴×)", x: "-0.152871045534", y: "1.031936401533", zoom: 8000, iter: 3000 },
       { name: "Goldene Kolonie (10⁵×)", x: "0.34989674420518", y: "0.09429460526938", zoom: 500000, iter: 4000 },
       { name: "Doppelspirale (10⁷×)", x: "-0.0883402764974467", y: "0.6546012813068825", zoom: 20000000, iter: 4000 },
-      { name: "Sternenexplosion (10⁹×)", x: "-0.704746235950575915", y: "-0.249538975410312217", zoom: 3000000000, iter: 5000 }
+      { name: "Sternenexplosion (10⁹×)", x: "-0.704746235950575915", y: "-0.249538975410312217", zoom: 3000000000, iter: 5000 },
+      { name: "Blitzbaum", x: "-1.39332675778122822636811", y: "0.00749539669109447730804", zoom: 284, paletteId: "neon" },
+      { name: "Schneekristall-Ast", x: "-0.163257192865836077910138", y: "1.032773334389313632391301", zoom: 4000, paletteId: "ozean" },
+      { name: "Kristallwald", x: "0.411831626376558411566606", y: "0.333708205528198087914948", zoom: 2372, paletteId: "feuer" },
+      { name: "Wirbelkolonie", x: "-0.73146007654606638438465", y: "-0.17468981129841901395768", zoom: 821, customColors: ["#120024", "#a5158c", "#ffb703", "#fff8e7"] },
+      { name: "Blitzwurzel (10⁵×)", x: "-1.73200786984826052485862802", y: "0.00002118880855120532276775", zoom: 281262, iter: 3500, paletteId: "grau" },
+      { name: "Federkristall (10⁵×)", x: "-0.1623117928937097952462403", y: "1.0257433796937194149766450", zoom: 100000, iter: 3000, paletteId: "pastell" },
+      { name: "Sternennebel (10⁶×)", x: "-1.73200589726219517840166346522616", y: "0.00001792605361731386507383701238", zoom: 1044306, iter: 4500, customColors: ["#030014", "#3a0ca3", "#4cc9f0", "#f72585"] }
     ];
   </script>
 
@@ -2570,9 +2558,9 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       }
       renderPlaceMenu();
 
-      function goToPlace(place, isFavorite) {
+      function goToPlace(place) {
         goTo(place);
-        if (isFavorite && place.paletteId) {
+        if (place.paletteId) {
           var palette = PALETTES.filter(function (p) { return p.id === place.paletteId; })[0];
           if (palette) {
             lut = buildPalette(palette.stops, 1024);
@@ -2580,7 +2568,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
             drawLowRes();
             render();
           }
-        } else if (isFavorite && place.customColors) {
+        } else if (place.customColors) {
           place.customColors.forEach(function (hex, i) { if (customColorInputs[i]) customColorInputs[i].value = hex; });
           applyCustomColors();
         }
@@ -2599,7 +2587,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         if (!item) return;
         var idx = Number(item.getAttribute("data-idx"));
         var kind = item.getAttribute("data-kind");
-        goToPlace(kind === "favorite" ? FAVORITES[idx] : PLACES[idx], kind === "favorite");
+        goToPlace(kind === "favorite" ? FAVORITES[idx] : PLACES[idx]);
         closePlaceMenu();
       });
 
@@ -2615,10 +2603,10 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           width: w, count: h, yStart: 0, dcLeft: -(w / 2) * scale, dcTop: (h / 2) * scale, scale: scale, maxIter: maxIter
         }, ref.x, ref.y);
         var previewLut = lut;
-        if (isFavorite && place.paletteId) {
+        if (place.paletteId) {
           var pal = PALETTES.filter(function (p) { return p.id === place.paletteId; })[0];
           if (pal) previewLut = buildPalette(pal.stops, 256);
-        } else if (isFavorite && place.customColors) {
+        } else if (place.customColors) {
           var c = place.customColors.map(hexToRgb);
           previewLut = buildPalette([[0, c[0][0], c[0][1], c[0][2]], [0.25, c[1][0], c[1][1], c[1][2]], [0.5, c[2][0], c[2][1], c[2][2]], [0.75, c[3][0], c[3][1], c[3][2]], [1, c[0][0], c[0][1], c[0][2]]], 256);
         } else if (!isFavorite) {
