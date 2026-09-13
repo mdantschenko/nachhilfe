@@ -1100,7 +1100,6 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     }
     .lab-btn[aria-pressed="true"] .box::after { transform: translate(-50%, -50%) scale(1); }
     .lab-select { cursor: pointer; max-width: 100%; }
-    .lab-reset { margin-left: auto; }
     .lab-stage { position: relative; background: #040a1c; }
     .lab-stage canvas { display: block; width: 100%; aspect-ratio: 16 / 9; }
     #fractal { touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; outline: none; }
@@ -1151,6 +1150,8 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     .info-btn:hover, .info-btn[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
     .download-btn { color: var(--accent); border-color: var(--accent); background: var(--accent-tint); }
     .download-btn:hover, .download-btn[aria-expanded="true"] { background: var(--accent); color: var(--on-accent); }
+    .reset-btn { color: #e5484d; border-color: #e5484d; }
+    .reset-btn:hover, .reset-btn[aria-expanded="true"] { background: #e5484d; border-color: #e5484d; color: #fff; }
     .stat-btn {
       border: 0; background: none; padding: 2px 4px; margin: -2px -4px; border-radius: 6px;
       font: inherit; font-size: inherit; color: inherit; cursor: pointer;
@@ -1166,6 +1167,11 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
     .info-list { margin: 0; padding-left: 18px; }
     .info-list li + li { margin-top: 8px; }
     .download-popover:not([hidden]) { display: flex; gap: 8px; padding: 8px; width: auto; }
+    .reset-popover:not([hidden]) { display: block; width: 240px; }
+    .reset-popover p { margin: 0 0 12px; color: var(--ink); }
+    .reset-popover-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .reset-confirm { border-color: #e5484d; color: #e5484d; }
+    .reset-confirm:hover { background: #e5484d; color: #fff; }
     .edit-popover:not([hidden]) { display: flex; flex-direction: column; gap: 8px; width: 220px; }
     .edit-popover label { font-size: 12px; font-weight: 700; color: var(--muted); }
     .edit-popover .edit-hint { font-weight: 500; color: var(--faint); }
@@ -1223,7 +1229,6 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       .lab-btn, .lab-select { padding: 7px 10px; font-size: 12.5px; }
       .seg button { padding: 6px 10px; font-size: 12.5px; }
       .lab-select { max-width: 42vw; text-overflow: ellipsis; }
-      .lab-reset { margin-left: 0; }
       .coord-input { padding: 7px 9px; font-size: 12.5px; }
       .lab-status { padding: 8px 10px; gap: 4px 14px; font-size: 12px; }
       .lab-stage canvas { aspect-ratio: 4 / 5; }
@@ -1275,7 +1280,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
 
       <section class="lab" aria-label="Mandelbrot-Labor">
         <div class="lab-stage">
-          <canvas id="fractal" tabindex="0" aria-label="Interaktive Mandelbrot-Menge. Mit Plus und Minus zoomen, mit den Pfeiltasten verschieben, mit R zurücksetzen."></canvas>
+          <canvas id="fractal" tabindex="0" aria-label="Interaktive Mandelbrot-Menge. Mit Plus und Minus zoomen, mit den Pfeiltasten verschieben."></canvas>
           <canvas id="overlay" aria-hidden="true"></canvas>
           <p class="fractal-note" id="fractal-note" hidden></p>
           <div class="lab-progress" id="lab-progress" hidden></div>
@@ -1292,6 +1297,9 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
             </button>
             <button type="button" class="info-btn" id="settings-trigger" aria-expanded="false" aria-controls="lab-settings" aria-label="Einstellungen">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
+            <button type="button" class="info-btn reset-btn" id="reset-btn" aria-expanded="false" aria-label="Ansicht zurücksetzen">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>
             </button>
           </div>
         </div>
@@ -1318,7 +1326,6 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           <button type="button" class="lab-select" id="place-select-btn" aria-expanded="false" aria-controls="place-menu">Bekannte Orte …</button>
           <button type="button" class="lab-btn" id="add-favorite-btn" aria-expanded="false">☆ Merken</button>
           <button type="button" class="lab-select" id="palette-select-btn" aria-expanded="false" aria-controls="palette-menu">Farben: <span id="palette-select-label"></span></button>
-          <button type="button" class="lab-btn lab-reset" id="fractal-reset">Zurücksetzen</button>
         </div>
         <div class="lab-bar lab-bar-secondary">
           <div class="custom-colors" id="custom-colors">
@@ -1342,6 +1349,13 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       <div class="info-popover download-popover" id="download-popover" hidden>
         <button type="button" class="lab-btn" id="download-png">Als PNG</button>
         <button type="button" class="lab-btn" id="download-pdf">Als PDF</button>
+      </div>
+      <div class="info-popover reset-popover" id="reset-popover" hidden>
+        <p>Ansicht wirklich zurücksetzen?</p>
+        <div class="reset-popover-actions">
+          <button type="button" class="lab-btn" id="reset-cancel">Abbrechen</button>
+          <button type="button" class="lab-btn reset-confirm" id="reset-confirm">Zurücksetzen</button>
+        </div>
       </div>
       <div class="info-popover edit-popover" id="zoom-popover" hidden>
         <label for="edit-zoom">Zoom <span class="edit-hint">(mindestens 1)</span></label>
@@ -1655,6 +1669,10 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       var downloadPdfBtn = document.getElementById("download-pdf");
       var downloadBtn = document.getElementById("download-btn");
       var downloadPopover = document.getElementById("download-popover");
+      var resetBtn = document.getElementById("reset-btn");
+      var resetPopover = document.getElementById("reset-popover");
+      var resetCancelBtn = document.getElementById("reset-cancel");
+      var resetConfirmBtn = document.getElementById("reset-confirm");
       var settingsTrigger = document.getElementById("settings-trigger");
       var labSettings = document.getElementById("lab-settings");
       var infoBtn = document.getElementById("info-btn");
@@ -2145,7 +2163,6 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         if (hover) {
           var hc = pointToDouble(pointAt(hover.px, hover.py));
           if (showOrbit && showVectorsOnMain) drawOrbitOnMain(hc, "#ffffff", pinned ? 0.55 : 1, orbitOf(hc, currentMaxIter()));
-          drawMarkerOrEdge(hc, "#ffffff", pinned ? 0.6 : 1);
         }
         if (pinned) {
           var pc = pointToDouble(pinned);
@@ -2221,7 +2238,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       function updateHint() {
         hint.textContent = SIMPLE_HINT
           ? "Tippen: hineinzoomen · Lange drücken: Folge des Punkts zeigen · Ziehen: verschieben · Zwei Finger oder Mausrad: zoomen"
-          : "Klicken: hineinzoomen · Shift-Klick oder Rechtsklick: herauszoomen · Mausrad: stufenlos · Ziehen: verschieben · Bewegen: Folge des Punkts zeigen · Tastatur: + − Pfeile R";
+          : "Klicken: hineinzoomen · Shift-Klick oder Rechtsklick: herauszoomen · Mausrad: stufenlos · Ziehen: verschieben · Bewegen: Folge des Punkts zeigen · Tastatur: + − Pfeile";
       }
 
       function zoomAt(px, py, factor) {
@@ -2449,7 +2466,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           case "ArrowRight": panBy(stepX, 0); break;
           case "ArrowUp": panBy(0, -stepY); break;
           case "ArrowDown": panBy(0, stepY); break;
-          case "r": case "R": case "0": case "Home": resetView(); break;
+          case "0": case "Home": resetView(); break;
           default: return;
         }
         e.preventDefault();
@@ -2461,7 +2478,12 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
         formulaToggle.setAttribute("aria-expanded", String(!expanded));
       });
 
-      document.getElementById("fractal-reset").addEventListener("click", resetView);
+      var closeResetPopover = setupPopover(resetBtn, resetPopover);
+      resetCancelBtn.addEventListener("click", closeResetPopover);
+      resetConfirmBtn.addEventListener("click", function () {
+        resetView();
+        closeResetPopover();
+      });
       gridToggle.addEventListener("click", function () {
         showGrid = !showGrid;
         gridToggle.setAttribute("aria-pressed", String(showGrid));
