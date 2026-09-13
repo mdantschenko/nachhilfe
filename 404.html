@@ -2332,6 +2332,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
           var marker = pinnedScreenPos();
           startDragPinned = Math.hypot(p.x - marker.x, p.y - marker.y) <= 26 * devicePixelsPerCss();
         }
+        if (startDragPinned && e.button === 2) { unpin(); return; }
         pointers.set(e.pointerId, { x: p.x, y: p.y, zoomOut: e.button === 2 || e.shiftKey });
         if (pointers.size <= 2) startGesture();
         if (pointers.size === 1) {
@@ -2531,12 +2532,13 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       setupPopover(iterBtn, iterPopover, { autoClose: false });
       setupPopover(cBtn, cPopover, { autoClose: false });
 
-      orbitClear.addEventListener("click", function () {
+      function unpin() {
         pinned = null;
         drawOverlay();
         updateOrbitPanel();
         updateHud();
-      });
+      }
+      orbitClear.addEventListener("click", unpin);
       pinBtn.addEventListener("click", function () {
         if (hover) pinAt(hover.px, hover.py);
       });
@@ -2578,17 +2580,20 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       function goToPlace(place) {
         goTo(place);
         if (place.paletteId) {
-          var palette = PALETTES.filter(function (p) { return p.id === place.paletteId; })[0];
-          if (palette) {
-            lut = buildPalette(palette.stops, 1024);
-            setActivePalette(palette);
-            drawLowRes();
-            render();
-          }
+          applyPalette(PALETTES.filter(function (p) { return p.id === place.paletteId; })[0]);
         } else if (place.customColors) {
           place.customColors.forEach(function (hex, i) { if (customColorInputs[i]) customColorInputs[i].value = hex; });
           applyCustomColors();
+        } else {
+          applyPalette(PALETTES[0]);
         }
+      }
+
+      function applyPalette(palette) {
+        lut = buildPalette(palette.stops, 1024);
+        setActivePalette(palette);
+        drawLowRes();
+        render();
       }
 
       placeMenu.addEventListener("click", function (e) {
@@ -2707,11 +2712,7 @@ html[data-headfont="grotesk"] .hero h1 em { font-style: normal; }
       paletteMenu.addEventListener("click", function (e) {
         var item = e.target.closest(".place-menu-item");
         if (!item) return;
-        var palette = PALETTES[Number(item.getAttribute("data-idx"))];
-        lut = buildPalette(palette.stops, 1024);
-        setActivePalette(palette);
-        drawLowRes();
-        render();
+        applyPalette(PALETTES[Number(item.getAttribute("data-idx"))]);
         closePaletteMenu();
       });
       var closePaletteMenu = setupPopover(paletteSelectBtn, paletteMenu);
